@@ -1,1 +1,63 @@
-<p>verification-email works!</p>
+@if (alert()) {
+    <div class="alert-message alert-top-right">
+      <p-message
+        severity="error"
+        [text]="alert()"
+        (onClose)="clearMessages()"
+        closable
+      />
+    </div>
+    }
+    
+    <div class="verificationCode-container">
+      <div class="verificationCode-card">
+        <h1 class="verificationCode-title">
+          <span>EmailVerification</span>
+        </h1>
+    
+        <form class="verificationCode-form" [formGroup]="emailVerificationForm" (ngSubmit)="onSubmit()">
+          <p class="verificationCode-subtitle">
+            Enter your Verification Code to access your account.
+          </p>
+    
+          <div class="form-field">
+
+            <!-- verificationCode Field -->
+            <div class="verificationCode-Input">
+              <p-floatlabel variant="on">
+                <input
+                  pInputText
+                  id="verificationCode"
+                  type="text"
+                  formControlName="verificationCode"
+                />
+                <label for="verificationCode">VerificationCode</label>
+              </p-floatlabel>
+              <div class="error-message">
+                <p-message
+                  *ngIf="getError('Verification')"
+                  severity="error"
+                  variant="simple"
+                  size="small"
+                >
+                  {{ getError("Verification") }}
+                </p-message>
+              </div>
+            </div>
+          </div>
+           
+    
+          <!-- EmailVerification Button -->
+          <button
+            pButton
+            type="submit"
+            label="Verifiy"
+            class="verificationCode-btn"
+            icon="pi pi-log-in"
+            styleClass="p-button-warning"
+          ></button>
+
+        </form>
+      </div>
+    </div>
+    
