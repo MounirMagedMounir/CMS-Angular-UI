@@ -1,0 +1,129 @@
+@if (alert()) {
+<div class="alert-message alert-top-right">
+  <p-message
+    severity="error"
+    [text]="alert()"
+    (onClose)="clearMessages()"
+    closable
+  />
+</div>
+}
+
+<div class="login-container">
+  <div class="login-card">
+    <h1 class="login-title">
+      <span>Log In</span>
+    </h1>
+
+    <form class="login-form" [formGroup]="logInForm" (ngSubmit)="onSubmit()">
+      <p class="login-subtitle">
+        Enter your credential to access your account.
+      </p>
+
+      <!-- Email Field -->
+      <div class="form-field">
+        <div class="email-Input">
+          <p-floatlabel variant="on">
+            <input pInputText id="email" type="email" formControlName="email" />
+            <label for="email">Email Address</label>
+          </p-floatlabel>
+          <p-message
+            *ngIf="getError('Email')"
+            severity="error"
+            variant="simple"
+            size="small"
+          >
+            {{ getError("Email") }}
+          </p-message>
+        </div>
+
+        <!-- Password Field -->
+        <div>
+          <p-floatlabel variant="on">
+            <p-inputgroup>
+              <input
+                pPassword
+                class="password-Input"
+                id="password"
+                [feedback]="false"
+                [type]="hide() ? 'password' : 'text'"
+                formControlName="password"
+                variant="filled"
+              />
+
+              <p-inputgroup-addon>
+                <p-button
+                  *ngIf="hide()"
+                  [rounded]="true"
+                  [text]="true"
+                  (click)="clickEvent($event)"
+                  icon="pi pi-eye"
+                />
+                <p-button
+                  *ngIf="!hide()"
+                  [rounded]="true"
+                  [text]="true"
+                  (click)="clickEvent($event)"
+                  icon="pi pi-eye-slash"
+                />
+              </p-inputgroup-addon>
+            </p-inputgroup>
+
+            <label for="password">Password</label>
+          </p-floatlabel>
+
+          <p-message
+            *ngIf="getError('Password')"
+            severity="error"
+            variant="simple"
+            size="small"
+          >
+            {{ getError("Password") }}
+          </p-message>
+        </div>
+      </div>
+
+      <!-- Remember Me and Forgot Password -->
+      <div class="login-options">
+        <p-checkbox binary="true" inputId="rememberMe"> </p-checkbox>
+
+        <label for="rememberMe" class="remember-me"> Remember me </label>
+
+        <a routerLink="/forgetPassword" class="forgot-password"
+          >Forgot your password?</a
+        >
+      </div>
+
+      <!-- Log In Button -->
+      <button
+        pButton
+        type="submit"
+        label="Log In"
+        class="login-btn"
+        icon="pi pi-log-in"
+        styleClass="p-button-warning"
+      ></button>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span>or</span>
+      </div>
+
+      <!-- Google Login Button -->
+      <button
+        pButton
+        type="button"
+        label="Log in with Google"
+        class="google-btn"
+        icon="pi pi-google"
+        styleClass="p-button-primary"
+      ></button>
+
+      <!-- Log Up Link -->
+      <p class="logup-text">
+        Not a member yet?
+        <a routerLink="/register" class="logup-link">Log up</a>
+      </p>
+    </form>
+  </div>
+</div>
