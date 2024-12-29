@@ -1,0 +1,58 @@
+<p-menubar [model]="mainMenu">
+  <ng-template #start>
+    <a href="/">
+      <img
+        src="favicon.png"
+        alt="logo"
+        class="p-menubar-logo"
+        [style]="{ width: '50px', height: '50px' }"
+      />
+    </a>
+  </ng-template>
+
+  <ng-template #end>
+    <ng-container *ngIf="auth.IsLoggedIn(); else elseBlock">
+      <div class="flex items-center gap-2">
+        <a>
+          <p-avatar
+            [image]="auth.currentUser()?.profileImage"
+            (click)="menu.toggle($event)"
+            shape="circle"
+            alt="profileImage" 
+          />
+        </a>
+
+        <p-menu #menu [model]="endMenu" [popup]="true">
+          <ng-template #item let-item>
+            <ng-container>
+              <a [routerLink]="item.route" class="p-menu-item-link">
+                <span class="ml-2">{{ item.label }}</span>
+              </a>
+            </ng-container>
+          </ng-template>
+        </p-menu>
+      </div>
+    </ng-container>
+
+    <ng-template #elseBlock>
+      <div class="end-menu">
+        <button
+          pRipple
+          class="flex items-center p-menubar-item-link"
+          [routerLink]="'/register'"
+        >
+          <span>Register</span>
+        </button>
+
+        <button
+          pRipple
+          class="flex items-center p-menubar-item-link"
+          [routerLink]="'/login'"
+        >
+        
+          <span>LogIn</span>
+        </button>
+      </div>
+    </ng-template>
+  </ng-template>
+</p-menubar>
