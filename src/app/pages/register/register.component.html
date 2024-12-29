@@ -1,1 +1,226 @@
-<p>register works!</p>
+@if (alert()) {
+<div class="alert-message alert-top-right">
+  <p-message
+    severity="error"
+    [text]="alert()"
+    (onClose)="clearMessages()"
+    closable
+  />
+</div>
+}
+
+<div class="register-container">
+  <div class="register-card">
+    <h1 class="register-title">
+      <span>Register</span>
+    </h1>
+
+    <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <p class="register-subtitle">
+        Enter your credential to create your account.
+      </p>
+
+      <div class="form-field">
+        <!-- Name Field -->
+        <div class="name-Input">
+          <p-floatlabel variant="on">
+            <input pInputText id="name" type="text" formControlName="name" />
+            <label for="name">Name</label>
+          </p-floatlabel>
+          <div class="error-message">
+            <p-message
+              *ngIf="getError('Invalid Name')||getErrorStart('Name')"
+              severity="error"
+              variant="simple"
+              size="small"
+            >
+              {{getError('Invalid Name')||getErrorStart('Name') }}
+            </p-message>
+          </div>
+        </div>
+
+        <!-- Email Field -->
+        <div class="email-Input">
+          <p-floatlabel variant="on">
+            <input pInputText id="email" type="email" formControlName="email" />
+            <label for="email">Email Address</label>
+          </p-floatlabel>
+          <div class="error-message">
+            <p-message
+              *ngIf="getError('Email')"
+              severity="error"
+              variant="simple"
+              size="small"
+            >
+              {{ getError("Email") }}
+            </p-message>
+          </div>
+        </div>
+
+        <!-- Phone Field -->
+        <div class="phone-Input">
+          <p-floatlabel variant="on">
+            <input pInputText id="phone" type="tel" formControlName="phone" />
+            <label for="phone">Phone</label>
+          </p-floatlabel>
+          <div class="error-message">
+            <p-message
+              *ngIf="getError('Phone')"
+              severity="error"
+              variant="simple"
+              size="small"
+            >
+              {{ getError("Phone") }}
+            </p-message>
+          </div>
+        </div>
+
+        <!-- UserName Field -->
+        <div class="userName-Input">
+          <p-floatlabel variant="on">
+            <input
+              pInputText
+              id="userName"
+              type="text"
+              formControlName="userName"
+            />
+            <label for="userName">UserName</label>
+          </p-floatlabel>
+          <div class="error-message">
+            <p-message
+              *ngIf="getError('UserName')"
+              severity="error"
+              variant="simple"
+              size="small"
+            >
+              {{ getError("UserName") }}
+            </p-message>
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div>
+          <p-floatlabel variant="on">
+            <p-inputgroup>
+              <input
+                pPassword
+                class="password-Input"
+                id="password"
+                [feedback]="false"
+                [type]="hide() ? 'password' : 'text'"
+                formControlName="password"
+                variant="filled"
+              />
+
+              <p-inputgroup-addon class="Eye-button" >
+                <p-button
+                  *ngIf="hide()"
+                  [rounded]="true"
+                  [text]="true"
+                  (click)="clickEvent($event)"
+                  icon="pi pi-eye"
+                />
+                <p-button
+                  *ngIf="!hide()"
+                  [rounded]="true"
+                  [text]="true"
+                  (click)="clickEvent($event)"
+                  icon="pi pi-eye-slash"
+                />
+              </p-inputgroup-addon>
+            </p-inputgroup>
+
+            <label for="password">Password</label>
+          </p-floatlabel>
+          <div class="error-message">
+            <p-message
+              *ngIf="getError('Invalid Password')||getErrorStart('Password')"
+              severity="error"
+              variant="simple"
+              size="small"
+            >
+              {{getError('Invalid Password')||getErrorStart('Password')}}
+            </p-message>
+          </div>
+        </div>
+
+        <!-- ConfirmPassword Field -->
+        <div>
+          <p-floatlabel variant="on">
+            <p-inputgroup>
+              <input
+                pPassword
+                class="confirmPassword-Input"
+                id="confirmPassword"
+                [feedback]="false"
+                [type]="hide() ? 'password' : 'text'"
+                formControlName="confirmPassword"
+                variant="filled"
+              />
+
+              <p-inputgroup-addon class="Eye-button" >
+                <p-button
+                  *ngIf="hide()"
+                  [rounded]="true"
+                  [text]="true"
+                  (click)="clickEvent($event)"
+                  icon="pi pi-eye"
+                />
+                <p-button
+                  *ngIf="!hide()"
+                  [rounded]="true"
+                  [text]="true"
+                  (click)="clickEvent($event)"
+                  icon="pi pi-eye-slash"
+                />
+              </p-inputgroup-addon>
+            </p-inputgroup>
+
+            <label for="confirmPassword">ConfirmPassword</label>
+          </p-floatlabel>
+          <div class="error-message">
+            <p-message
+              *ngIf="getError('ConfirmPassword')"
+              severity="error"
+              variant="simple"
+              size="small"
+            >
+              {{ getError("ConfirmPassword") }}
+            </p-message>
+          </div>
+        </div>
+      </div>
+
+      <!-- Register Button -->
+      <button
+        pButton
+        type="submit"
+        label="Register"
+        class="register-btn"
+        icon="pi pi-log-in"
+        styleClass="p-button-warning"
+      ></button>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span>or</span>
+      </div>
+
+      <!-- Google Login Button -->
+      <button
+        pButton
+        type="button"
+        label="Register with Google"
+        class="google-btn"
+        icon="pi pi-google"
+        styleClass="p-button-primary"
+      ></button>
+
+      <!-- Log Up Link -->
+      <p class="login-text">
+        Alredy have an account?
+        <a routerLink="/login" class="login-link">Log in</a>
+      </p>
+    </form>
+  </div>
+</div>
