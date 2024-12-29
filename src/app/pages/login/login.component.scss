@@ -22,7 +22,9 @@
   border-radius: 4px;
   font-size: 14px;
 }
-
+.Eye-button{
+  height: 43px;
+}
 .login-container {  
   
   justify-content: center;
@@ -53,7 +55,12 @@
         color: #34d399; // Pink accent
       }
     }
-
+    .error-message {
+      justify-content: center;
+      align-items: center;
+      margin-top: -16px;
+      margin-bottom: 10px;
+    }
     .login-subtitle {
       text-align: center;
       font-size: 1rem; // Slightly larger subtitle
@@ -74,6 +81,7 @@
             width: 100%;
             padding: 0.7rem; // Larger padding for inputs
             border-radius: 5px;
+            margin-bottom: 6px;
             background-color: #27272a;
             color: #fff; // White text
             transition: box-shadow 0.3s;

@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { AuthenticationService } from '../../core/services/authentication/authentication.service';
+import { userAuthenticationApiService } from '../../core/services/api/userAuthentication/userauthenticationApi.service';
 import { ApiResponse } from '../../core/interface/api-response';
 import { AuthResponse } from '../../core/interface/auth-response';
 import { Message } from 'primeng/message';
@@ -13,6 +13,7 @@ import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { AuthenticationService } from '../../core/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 
 export class LoginComponent {
 
-  constructor(private router: Router, public formBuilder: FormBuilder, private auth: AuthenticationService) { }
+  constructor(private router: Router, private userAuthApi: userAuthenticationApiService,private auth:AuthenticationService) { }
   errors: string[] = [""];
   alert = signal("");
   hide = signal(true);
@@ -49,14 +50,13 @@ export class LoginComponent {
   onSubmit() {
     this.errors = [""];
     this.alert.set("");
-    this.auth.logIn(this.logInForm.getRawValue())
+    this.userAuthApi.logIn(this.logInForm.getRawValue())
       .subscribe(
         {
           next: (response: any) => {
             const res = response as ApiResponse<Array<AuthResponse>>;
             if (res.status === 200) {
-              localStorage.setItem('token', res.data[0].token);
-              localStorage.setItem('refreshToken', res.data[0].refreshToken);
+              this.auth.login(res.data[0].token, res.data[0].refreshToken);
               this.router.navigate(['/']);
             }
             else if (res.status === 400) {

@@ -27,14 +27,16 @@
             <input pInputText id="email" type="email" formControlName="email" />
             <label for="email">Email Address</label>
           </p-floatlabel>
-          <p-message
-            *ngIf="getError('Email')"
-            severity="error"
-            variant="simple"
-            size="small"
-          >
-            {{ getError("Email") }}
-          </p-message>
+          <div class="error-message">
+            <p-message
+              *ngIf="getError('Email')"
+              severity="error"
+              variant="simple"
+              size="small"
+            >
+              {{ getError("Email") }}
+            </p-message>
+          </div>
         </div>
 
         <!-- Password Field -->
@@ -44,7 +46,6 @@
               <input
                 pPassword
                 class="password-Input"
-                [(ngModel)]="logInForm.value.password"
                 id="password"
                 [feedback]="false"
                 [type]="hide() ? 'password' : 'text'"
@@ -52,8 +53,9 @@
                 variant="filled"
               />
 
-              <p-inputgroup-addon>
+              <p-inputgroup-addon class="Eye-button" >
                 <p-button
+              
                   *ngIf="hide()"
                   [rounded]="true"
                   [text]="true"
@@ -72,15 +74,16 @@
 
             <label for="password">Password</label>
           </p-floatlabel>
-
-          <p-message
-            *ngIf="getError('Password')"
-            severity="error"
-            variant="simple"
-            size="small"
-          >
-            {{ getError("Password") }}
-          </p-message>
+          <div class="error-message">
+            <p-message
+              *ngIf="getError('Password')"
+              severity="error"
+              variant="simple"
+              size="small"
+            >
+              {{ getError("Password") }}
+            </p-message>
+          </div>
         </div>
       </div>
 
@@ -90,7 +93,7 @@
 
         <label for="rememberMe" class="remember-me"> Remember me </label>
 
-        <a routerLink="/forgetPassword" class="forgot-password"
+        <a routerLink="/forgetpassword" class="forgot-password"
           >Forgot your password?</a
         >
       </div>
