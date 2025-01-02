@@ -15,7 +15,7 @@
           <span>EmailVerification</span>
         </h1>
     
-        <form class="verificationCode-form" [formGroup]="emailVerificationForm" (ngSubmit)="onSubmit()">
+        <form pFocusTrap class="verificationCode-form" [formGroup]="emailVerificationForm" (ngSubmit)="onSubmit()">
           <p class="verificationCode-subtitle">
             Enter your Verification Code to access your account.
           </p>
@@ -26,6 +26,7 @@
             <div class="verificationCode-Input">
               <p-floatlabel variant="on">
                 <input
+                [pAutoFocus]="true"
                   pInputText
                   id="verificationCode"
                   type="text"

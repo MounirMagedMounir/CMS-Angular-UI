@@ -14,10 +14,11 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { AuthenticationService } from '../../core/services/authentication/authentication.service';
-
+import { FocusTrapModule } from 'primeng/focustrap';
+import { AutoFocusModule } from 'primeng/autofocus';
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, RouterLink, FormsModule, ReactiveFormsModule, Message, InputTextModule, PasswordModule, Checkbox, ButtonModule, FloatLabelModule, InputGroup, InputGroupAddonModule],
+  imports: [CommonModule, RouterLink, FormsModule, ReactiveFormsModule, Message, InputTextModule, PasswordModule, Checkbox, ButtonModule, FloatLabelModule, InputGroup, InputGroupAddonModule,FocusTrapModule,AutoFocusModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -61,7 +62,9 @@ export class LoginComponent {
             }
             else if (res.status === 400) {
 
-              res.message.forEach((element: any) => { console.log("eelementrror " + element); this.errors.push(element) });
+              res.message.forEach((element: any) => {
+                //  console.log("eelementrror " + element); 
+                 this.errors.push(element) });
             } else if (res.status === 404) {
 
               this.alert.set(res.message.toString());

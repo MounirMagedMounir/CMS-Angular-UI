@@ -10,11 +10,12 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ApiResponse } from '../../core/interface/api-response';
 import { userAuthenticationApiService } from '../../core/services/api/userAuthentication/userauthenticationApi.service';
-
+import { FocusTrapModule } from 'primeng/focustrap';
+import { AutoFocusModule } from 'primeng/autofocus';
 
 @Component({
   selector: 'app-forgetpassword',
-  imports: [CommonModule, ReactiveFormsModule, Message, InputTextModule, PasswordModule, ButtonModule, FloatLabelModule, InputGroupAddonModule],
+  imports: [CommonModule, ReactiveFormsModule, Message, InputTextModule, PasswordModule, ButtonModule, FloatLabelModule, InputGroupAddonModule, FocusTrapModule, AutoFocusModule],
   templateUrl: './forgetpassword.component.html',
   styleUrl: './forgetpassword.component.scss'
 })
@@ -36,7 +37,7 @@ export class ForgetpasswordComponent {
   onSubmit() {
     this.errors = [""];
     this.alert.set("");
-    console.log(this.forgetPasswordForm.getRawValue().email);
+    // console.log(this.forgetPasswordForm.getRawValue().email);
     this.userAuthApi.forgetPassword(JSON.stringify(this.forgetPasswordForm.getRawValue().email))
       .subscribe(
         {
@@ -47,7 +48,9 @@ export class ForgetpasswordComponent {
               this.router.navigate(['/']);
             }
             else if (res.status === 400) {
-              res.message.forEach((element: any) => { console.log("eelementrror " + element); this.errors.push(element) });
+              res.message.forEach((element: any) => {
+                //  console.log("eelementrror " + element); 
+                 this.errors.push(element) });
             } else if (res.status === 401) {
 
               this.alert.set(res.message.toString());

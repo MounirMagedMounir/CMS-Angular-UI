@@ -11,10 +11,12 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { userAuthenticationApiService } from '../../../core/services/api/userAuthentication/userauthenticationApi.service';
 import { ApiResponse } from '../../../core/interface/api-response';
 import { AuthResponse } from '../../../core/interface/auth-response';
+import { FocusTrapModule } from 'primeng/focustrap';
+import { AutoFocusModule } from 'primeng/autofocus';
 
 @Component({
   selector: 'app-verification-email',
-  imports: [CommonModule, ReactiveFormsModule, Message, InputTextModule, PasswordModule, ButtonModule, FloatLabelModule, InputGroupAddonModule],
+  imports: [CommonModule, ReactiveFormsModule, Message, InputTextModule, PasswordModule, ButtonModule, FloatLabelModule, InputGroupAddonModule, FocusTrapModule, AutoFocusModule],
   templateUrl: './verification-email.component.html',
   styleUrl: './verification-email.component.scss'
 })
@@ -34,7 +36,7 @@ export class VerificationEmailComponent implements OnInit{
   ngOnInit(): void  {
      this.emailVerificationForm.setValue({verificationCode:null,email:this.route.snapshot.paramMap.get('email')});
 
-console.log("email "+this.route.snapshot.paramMap.get('email'));
+// console.log("email "+this.route.snapshot.paramMap.get('email'));
   }
 
   clearMessages() {
@@ -53,7 +55,9 @@ console.log("email "+this.route.snapshot.paramMap.get('email'));
             }
             else if (res.status === 400) {
 
-              res.message.forEach((element: any) => { console.log("eelementrror " + element); this.errors.push(element) });
+              res.message.forEach((element: any) => { 
+                // console.log("eelementrror " + element);
+                 this.errors.push(element) });
             } else if (res.status === 404) {
 
               this.alert.set(res.message.toString());

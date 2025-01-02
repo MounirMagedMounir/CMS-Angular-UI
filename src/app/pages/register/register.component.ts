@@ -12,9 +12,11 @@ import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { FocusTrapModule } from 'primeng/focustrap';
+import { AutoFocusModule } from 'primeng/autofocus';
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, Message, InputTextModule, PasswordModule, ButtonModule, FloatLabelModule, InputGroup, InputGroupAddonModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, Message, InputTextModule, PasswordModule, ButtonModule, FloatLabelModule, InputGroup, InputGroupAddonModule,FocusTrapModule,AutoFocusModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -65,7 +67,9 @@ export class RegisterComponent {
             }
             else if (res.status === 400) {
 
-              res.message.forEach((element: any) => { console.log("eelementrror " + element); this.errors.push(element) });
+              res.message.forEach((element: any) => { 
+                // console.log("eelementrror " + element); 
+                this.errors.push(element) });
             }
           },
           error: (error) => {

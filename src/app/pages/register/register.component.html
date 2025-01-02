@@ -15,7 +15,7 @@
       <span>Register</span>
     </h1>
 
-    <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form pFocusTrap class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <p class="register-subtitle">
         Enter your credential to create your account.
       </p>
@@ -24,7 +24,7 @@
         <!-- Name Field -->
         <div class="name-Input">
           <p-floatlabel variant="on">
-            <input pInputText id="name" type="text" formControlName="name" />
+            <input pInputText id="name" type="text" formControlName="name"  [pAutoFocus]="true" />
             <label for="name">Name</label>
           </p-floatlabel>
           <div class="error-message">
