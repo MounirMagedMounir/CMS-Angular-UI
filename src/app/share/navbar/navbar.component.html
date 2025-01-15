@@ -1,4 +1,6 @@
-<p-menubar [model]="mainMenu">
+<p-menubar
+  [model]="auth.isAdmin() ? adminMenu :mainMenu "
+>
   <ng-template #start>
     <a href="/">
       <img
@@ -10,15 +12,21 @@
     </a>
   </ng-template>
 
+  <ng-template #item let-item let-root="root">
+    <a pRipple [routerLink]="item.route" class="flex items-center p-menubar-item-link">
+      <span>{{ item.label }}</span>
+    </a>
+  </ng-template>
+
   <ng-template #end>
-    <ng-container *ngIf="auth.IsLoggedIn(); else elseBlock">
+    <ng-container *ngIf="auth.isLoggedIn(); else elseBlock">
       <div class="flex items-center gap-2">
         <a>
           <p-avatar
             [image]="auth.currentUser()?.profileImage"
             (click)="menu.toggle($event)"
             shape="circle"
-            alt="profileImage" 
+            alt="profileImage"
           />
         </a>
 
@@ -49,7 +57,6 @@
           class="flex items-center p-menubar-item-link"
           [routerLink]="'/login'"
         >
-        
           <span>LogIn</span>
         </button>
       </div>

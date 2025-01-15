@@ -33,13 +33,18 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   buildBreadcrumbs(currentUrl: string): void {
-    const urlSegments = currentUrl.split('/').filter(segment => segment); // Remove empty segments
+    // Remove query parameters and fragments from the URL
+    const urlWithoutQueryParams = currentUrl.split('?')[0];
+
+    // Split the URL into segments, ignoring empty segments
+    const urlSegments = urlWithoutQueryParams.split('/').filter(segment => segment);
+
     let cumulativeUrl = '';
 
     this.items = urlSegments.map(segment => {
       cumulativeUrl += `/${segment}`;
       return {
-        label: this.capitalize(segment), // Optional: Capitalize the breadcrumb label
+        label: this.capitalize(segment), // Capitalize the breadcrumb label
         routerLink: cumulativeUrl,
       };
     });

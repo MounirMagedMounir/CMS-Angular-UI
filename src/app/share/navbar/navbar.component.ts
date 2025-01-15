@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
 import { BadgeModule } from 'primeng/badge';
@@ -8,52 +8,72 @@ import { CommonModule } from '@angular/common';
 import { Ripple } from 'primeng/ripple';
 import { RippleModule } from 'primeng/ripple';
 import { MenuModule } from 'primeng/menu';
-import {RouterModule} from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../core/services/authentication/authentication.service';
 
 
 @Component({
-  selector: 'app-navbar',
-  imports: [Menubar,RouterModule, BadgeModule, AvatarModule, InputTextModule, Ripple, CommonModule,MenuModule,  RippleModule ],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+    selector: 'app-navbar',
+    imports: [Menubar, RouterModule, BadgeModule, AvatarModule, InputTextModule, Ripple, CommonModule, MenuModule, RippleModule],
+    templateUrl: './navbar.component.html',
+    styleUrl: './navbar.component.scss'
 })
 
-export class NavbarComponent implements OnInit{
-auth=inject(AuthenticationService);
-mainMenu: MenuItem[] | undefined;
-endMenu: MenuItem[] | undefined;
+export class NavbarComponent implements OnInit {
+    auth = inject(AuthenticationService);
+    mainMenu: MenuItem[] | undefined;
+    endMenu: MenuItem[] | undefined;
+    adminMenu: MenuItem[] | undefined;
 
- 
-ngOnInit() : void {
+    ngOnInit(): void {
 
 
-      this.mainMenu = [
+        this.mainMenu = [
+            {
+                label: 'About',
+                route: '/'
+            },
 
-          {
-              label: 'About',
-               route: '/about'
-          },
+            {
+                label: 'Contact',
+                route: '/'
+            }
+        ];
 
-          {
-              label: 'Contact',
-               route: '/Contact'
-          }
-      ];
-      this.endMenu = [
-          {
-              label: 'Profile',
-              icon: 'pi pi-home',
-               route: '/profile'
-          },
-          {
-              label: 'Sign Out',
-              icon: 'pi pi-envelope',
-               route: '/signout'
-          }
-      ];
+        this.adminMenu = [
+            {
+                label: 'Admin',
+                icon: 'pi pi-search',
+                items: [
 
-  }
+                    {
+                        label: 'Users',
+                        icon: 'pi pi-home',
+                        route: '/admin/user'
+                    },
+                    {
+                        label: 'role',
+                        icon: 'pi pi-home',
+                        route: '/admin/role'
+                    }
+                ]
+            }
+        ]
+
+        this.endMenu = [
+            {
+                label: 'Profile',
+                icon: 'pi pi-home',
+                route: '/profile'
+            },
+            {
+                label: 'Sign Out',
+                icon: 'pi pi-envelope',
+                route: '/signout'
+            }
+        ];
+
+    }
 
 
 
