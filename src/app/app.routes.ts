@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { VerificationEmailComponent } from './pages/verification/verification-email/verification-email.component';
 import { SignoutComponent } from './pages/signout/signout.component';
 import { ForgetpasswordComponent } from './pages/forgetpassword/forgetpassword.component';
 import { HomeComponent } from './pages/home/home.component';
+import { unAuthGuard } from './core/guards/unAuth/un-auth.guard';
+import { userAuthGuard } from './core/guards/auth/userAuth/user-auth.guard';
 
 export const routes: Routes = [
     {
@@ -14,23 +15,30 @@ export const routes: Routes = [
     },
     {
         path:'login',
-        component: LoginComponent
+        component: LoginComponent,
+        canActivate: [unAuthGuard]
+
     },
     {
         path:'register',
-        component: RegisterComponent
+        component: RegisterComponent,
+        canActivate: [unAuthGuard]
     },
     {
         path:'verification',
-        component: VerificationEmailComponent
+        component: VerificationEmailComponent,
+        canActivate: [unAuthGuard]
     },
     {
         path:'signout',
-        component: SignoutComponent
+        component: SignoutComponent,
+        canActivate: [userAuthGuard]
+
     },
     {
         path:'forgetpassword',
-        component: ForgetpasswordComponent
+        component: ForgetpasswordComponent,
+        canActivate: [unAuthGuard]
     },
     {
 
@@ -40,6 +48,7 @@ export const routes: Routes = [
     {
 
         path:'profile',
+        canActivate: [userAuthGuard],
         loadChildren:()=>import( './pages/profile/profile.module').then(m=>m.ProfileModule)   
     }
     
