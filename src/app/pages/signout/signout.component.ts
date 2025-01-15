@@ -31,17 +31,19 @@ export class SignoutComponent implements OnInit {
         next: (response: any) => {
           const res = response as ApiResponse<null>;
           if (res.status === 200) {
-                this.auth.logout();
+                this.auth.signout();
             this.router.navigate(['/']);
           }
           else if (res.status === 404) {
-            this.auth.logout();
-            res.message.forEach((element: any) => { console.log("eelementrror " + element); this.errors.push(element) });
+            this.auth.signout();
+            res.message.forEach((element: any) => { 
+              // console.log("eelementrror " + element); 
+              this.errors.push(element) });
             this.router.navigate(['/login']);
           } 
         },
         error: (error) => {
-          this.auth.logout();
+          this.auth.signout();
           console.log("server error " + error);
         }
       });

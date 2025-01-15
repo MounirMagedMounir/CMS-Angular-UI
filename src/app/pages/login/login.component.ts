@@ -58,6 +58,7 @@ export class LoginComponent {
             const res = response as ApiResponse<Array<AuthResponse>>;
             if (res.status === 200) {
               this.auth.login(res.data[0].token, res.data[0].refreshToken);
+              
               this.router.navigate(['/']);
             }
             else if (res.status === 400) {

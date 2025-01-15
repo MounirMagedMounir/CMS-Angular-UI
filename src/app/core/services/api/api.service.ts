@@ -8,7 +8,7 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   // Base URL for the API
-  private baseUrl = 'https://localhost:7113/api';
+  private baseUrl = 'https://api-cms.runasp.net/api';
 
   // Default HTTP options
   private httpOptions = {
