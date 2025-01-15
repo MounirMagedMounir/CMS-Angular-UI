@@ -5,25 +5,26 @@ import { ApiResponse } from '../interface/api-response';
 import { AuthResponse } from '../interface/auth-response';
 import {  throwError } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
+import { AuthenticationService } from '../services/authentication/authentication.service';
 
 
 export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const userAuthApi = inject(userAuthenticationApiService);
-
+  const auth = inject(AuthenticationService);
   const token = localStorage.getItem('token') ?? '';
   const refreshToken = localStorage.getItem('refreshToken') ?? '';
   if (token && refreshToken && isTokenExpired(token)&&!req.url.includes('/UserAuthentication/RefreshToken')) {
-    console.log('Token expired, attempting refresh...');
+    // console.log('Token expired, attempting refresh...');
     
     return userAuthApi.refreshToken(JSON.stringify(refreshToken)).pipe(
       switchMap(
         (response:any) => {
-          console.log('Token refresh response:', response);
+          // console.log('Token refresh response:', response);
           const res = response as ApiResponse<Array<AuthResponse>>;
           if (res.status === 200) {
             const newToken = res.data[0].token;
             const newRefreshToken = res.data[0].refreshToken;
-            console.log('Token refreshed successfully', newToken);
+            // console.log('Token refreshed successfully', newToken);
 
             localStorage.setItem('token', newToken);
             localStorage.setItem('refreshToken', newRefreshToken);
@@ -34,19 +35,19 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
             return next(clonedReq);
           } else {
             console.error('Token refresh failed:', res.status);
-            clearSessionAndRedirect();
+            clearSessionAndRedirect(auth);
             return throwError(() => new Error('Token refresh failed.'));
           }   
      
       }),
       catchError((error) => {
         console.error('Refresh token API error:', error.message);
-        clearSessionAndRedirect();
+        clearSessionAndRedirect(auth);
         return throwError(() => new Error('Token refresh failed.'));
       })
     );
   }
-console.log('Token is not expired or no token found');
+// console.log('Token is not expired or no token found');
   // If no refresh is needed, forward the request as is
   return next(req);
 };
@@ -74,12 +75,12 @@ function getTokenExpiry(token: string): number {
 
 function isTokenExpired(token: string): boolean {
   const expiry = getTokenExpiry(token);
-  console.log('Token expiry:', expiry);
+  // console.log('Token expiry:', expiry);
   return !expiry || Date.now() >= expiry;
 }
 
-function clearSessionAndRedirect(): void {
-  localStorage.removeItem('token');
-  localStorage.removeItem('refreshToken');
- // window.location.href = '/login'; // Adjust the path as needed
+function clearSessionAndRedirect(auth:AuthenticationService): void {
+
+  auth.signout();
+  window.location.href = '/login'; // Adjust the path as needed
 }
