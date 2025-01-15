@@ -13,6 +13,7 @@ import { AuthResponse } from '../../../core/interface/auth-response';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { AdminauthenticationApiService } from '../../../core/services/api/adminAuthentication/adminauthenticationApi.service';
+import { AuthenticationService } from '../../../core/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -21,7 +22,7 @@ import { AdminauthenticationApiService } from '../../../core/services/api/adminA
   styleUrl: './admin-login.component.scss'
 })
 export class AdminLoginComponent {
-  constructor(private router: Router, public formBuilder: FormBuilder, private adminAuthApi: AdminauthenticationApiService) { }
+  constructor(private router: Router, public formBuilder: FormBuilder, private adminAuthApi: AdminauthenticationApiService,private auth:AuthenticationService) { }
   errors: string[] = [""];
   alert = signal("");
   hide = signal(true);
@@ -53,14 +54,18 @@ export class AdminLoginComponent {
           next: (response: any) => {
             const res = response as ApiResponse<Array<AuthResponse>>;
             if (res.status === 200) {
-              localStorage.setItem('token', res.data[0].token);
-              localStorage.setItem('refreshToken', res.data[0].refreshToken);
-              this.router.navigate(['/']);
+              this.auth.login(res.data[0].token, res.data[0].refreshToken);
+              this.router.navigate(['/admin']);
             }
             else if (res.status === 400) {
                
-              res.message.forEach((element: any) => { console.log("eelementrror " + element); this.errors.push(element) });
+              res.message.forEach((element: any) => {
+                //  console.log("eelementrror " + element);
+                  this.errors.push(element) });
             } else if (res.status === 404) {
+
+              this.alert.set(res.message.toString());
+            }else if (res.status === 403) {
 
               this.alert.set(res.message.toString());
             }
