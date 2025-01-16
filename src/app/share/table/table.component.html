@@ -1,1 +1,86 @@
-<p>table works!</p>
+@if (alert()) {
+<div class="alert-message alert-top-right">
+  <p-message
+    severity="error"
+    [text]="alert()"
+    (onClose)="clearMessages()"
+    closable
+  />
+</div>
+}
+
+<p-table
+  [value]="rowsData"
+  dataKey="id"
+  [loading]="loading"
+  [globalFilterFields]="filteredData"
+  selectionMode="single"
+  [(selection)]="selectedMembers"
+  [metaKeySelection]="true"
+  [customSort]="true"
+  (sortFunction)="customSort($event)"
+  (onFilter)="handleFilter($event)"
+  [filters]="filters"
+  [sortOrder]="metaData.sortOrder==='asc' ? 1 : -1"
+  [sortField]="metaData.sortBy"
+>
+  <ng-template #header>
+    <tr>
+      <th style="width: 50px">
+        <p-tableHeaderCheckbox />
+      </th>
+
+      @for (item of culumnsTitle; track $index) { @if (item.sort ) {
+      <th pSortableColumn="{{ item.title }}">
+        {{ item.title.charAt(0).toUpperCase() + item.title.slice(1) }}
+        <p-sortIcon field="{{ item.title }}" />
+      </th>
+      }@else{
+      <th>{{ item.title }}</th>
+      } }
+    </tr>
+    <tr>
+      @for (item of culemnsFilter; track $index) { @if(item.title){
+      <th>
+        <p-columnFilter
+          type="{{ item.type }}"
+          field="{{ item.title }}"
+          placeholder="Search by {{ item.title }}"
+          ariaLabel="Filter {{ item.title }}"
+          [showMenu]="false"
+        ></p-columnFilter>
+      </th>
+      }@else {
+      <th></th>
+      } }
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-rowData>
+    <tr>
+      <td>
+        <p-tableCheckbox [value]="rowData" />
+      </td>
+      @for (item of culumnsTitle; track $index) { @if(item.title
+      ==='profileImage'){
+      <td>
+        <p-avatar
+          [image]="rowData?.profileImage"
+          shape="circle"
+          alt="profileImage"
+        />
+      </td>
+      }@else {
+      <td>{{ rowData[item.title] }}</td>
+      } }
+    </tr>
+  </ng-template>
+  <ng-template #emptymessage>
+    <tr>
+      <td colspan="10">No users found.</td>
+    </tr>
+  </ng-template>
+
+</p-table>
+
+<p-paginator (onPageChange)="pageChange($event)" [first]="first" [rows]="metaData.perPage" [totalRecords]="metaData.totalItems" [rowsPerPageOptions]="[5, 10, 20]" />
