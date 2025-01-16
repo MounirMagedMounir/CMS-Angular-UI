@@ -50,14 +50,20 @@ export class TableComponent {
       // Populate filters from query params
       Object.keys(this.metaData.filters).forEach(key => {
         const paramValue = params[key];
-
+        let parsedValue;
         if (paramValue !== undefined && paramValue !== null && paramValue.trim() !== '') {
           // Set filter if paramValue exists and is valid
+          if (paramValue.toLowerCase() === 'true' || paramValue.toLowerCase() === 'false') {
+            parsedValue = paramValue.toLowerCase() === 'true'; // Convert to boolean
+          } else {
+            // If it's not a boolean string, use the value as-is
+            parsedValue = paramValue;
+          }
           this.filters[key] =
-            { value: paramValue, matchMode: 'contains', operator: 'or' }
+            { value: parsedValue, matchMode: 'contains', operator: 'or' }
             ;
 
-          this.metaData.filters[key] = paramValue; // Sync metaData.filters
+          this.metaData.filters[key] = parsedValue; // Sync metaData.filters
         } else {
           // If paramValue is undefined or empty, remove the filter
         
@@ -65,8 +71,6 @@ export class TableComponent {
         }
       });
     });
-  
-
   }
 
   customSort(event: SortEvent) {
@@ -101,8 +105,7 @@ export class TableComponent {
         const filterValue = filter?.value; // Safely access value with optional chaining
         const filterKey = key as keyof UserFilterResponse;
         this.metaData.filters[filterKey] = filterValue;
-        if (filter && (filterValue !== null)) {
-          if (filterValue) {
+        if (filter && filterValue !== null) {
             if (updatedParams[filterKey] != filterValue) {
               updatedParams[filterKey] = filterValue;
               this.router.navigate([], {
@@ -111,7 +114,6 @@ export class TableComponent {
                 replaceUrl: true,  // Replace the URL without adding a new history entry
               });
 
-            }
           }
         } else {
           if (this.route.snapshot.queryParams[filterKey]) {

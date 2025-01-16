@@ -21,7 +21,7 @@ export class UserListComponent implements OnInit {
   userList: Array<UserResponse> = [];
 
   culumnsTitle = [{ title: 'profileImage', sort: false }, { title: 'name', sort: true }, { title: 'userName', sort: true }, { title: 'email', sort: true }, { title: 'phone', sort: true }, { title: 'isActive', sort: true }, { title: 'role', sort: true }, { title: 'createdDate', sort: true }];
-  culemnsFilter = ['', '', { title: 'name', type: "text" }, { title: 'userName', type: "text" }, { title: 'email', type: "text" }, { title: 'phone', type: "text" }, { title: 'isActive', type: "boolean" }, { title: 'roleName', type: "text" }, { title: 'createdDate', type: "text" }];
+  culemnsFilter = ['', '', { title: 'name', type: "text" }, { title: 'userName', type: "text" }, { title: 'email', type: "text" }, { title: 'phone', type: "text" }, { title: 'isActive', type: "boolean" }, { title: 'roleName', type: "text" }, { title: 'createdDate', type: "date" }];
 
   metaData: MetaDataResponse<UserFilterResponse> = {
     filters: {
@@ -91,7 +91,7 @@ export class UserListComponent implements OnInit {
 
     Object.keys(this.metaData.filters).forEach((key) => {
       const filterKey = key as keyof UserFilterResponse;
-      this.metaData.filters[filterKey] = params[filterKey];
+      this.metaData.filters[filterKey] = params[filterKey]?JSON.parse(params[filterKey]):params[filterKey];
 
     });
   }

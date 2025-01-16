@@ -23,6 +23,7 @@
   [filters]="filters"
   [sortOrder]="metaData.sortOrder==='asc' ? 1 : -1"
   [sortField]="metaData.sortBy"
+  
 >
   <ng-template #header>
     <tr>
@@ -40,7 +41,8 @@
       } }
     </tr>
     <tr>
-      @for (item of culemnsFilter; track $index) { @if(item.title){
+      @for (item of culemnsFilter; track $index) {
+      @if(item.title){
       <th>
         <p-columnFilter
           type="{{ item.type }}"
