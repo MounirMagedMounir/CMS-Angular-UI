@@ -12,10 +12,10 @@ import { FilterMetadata, SortEvent } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { PaginatorModule } from 'primeng/paginator';
-
+import { Tooltip } from 'primeng/tooltip';
 @Component({
   selector: 'app-table',
-  imports: [CommonModule, TableModule, TagModule, DropdownModule, FormsModule, Message, AvatarModule, ButtonModule, PaginatorModule],
+  imports: [CommonModule, TableModule, TagModule, DropdownModule, FormsModule, Message, AvatarModule, ButtonModule, PaginatorModule, Tooltip],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })

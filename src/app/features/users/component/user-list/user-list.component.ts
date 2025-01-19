@@ -21,7 +21,13 @@ export class UserListComponent implements OnInit {
   userList: Array<UserResponse> = [];
 
   culumnsTitle = [{ title: 'profileImage', sort: false }, { title: 'name', sort: true }, { title: 'userName', sort: true }, { title: 'email', sort: true }, { title: 'phone', sort: true }, { title: 'isActive', sort: true }, { title: 'role', sort: true }, { title: 'createdDate', sort: true }];
-  culemnsFilter = ['', '', { title: 'name', type: "text" }, { title: 'userName', type: "text" }, { title: 'email', type: "text" }, { title: 'phone', type: "text" }, { title: 'isActive', type: "boolean" }, { title: 'roleName', type: "text" }, { title: 'createdDate', type: "date" }];
+  culemnsFilter = ['', '', { title: 'name', type: "text", tip: "contain string , no special characters" },
+    { title: 'userName', type: "text", tip: "contain only letters, numbers, underscores and periods . Special characters such as @ or # or consecutive underscores or periods or end with an underscore or period are not allowed. " },
+    { title: 'email', type: "text", tip: "" },
+    { title: 'phone', type: "text", tip: "must contain only numbers . " },
+    { title: 'isActive', type: "boolean", tip: "contain true or false" },
+    { title: 'role', type: "text", tip: "contain string , no special characters" },
+    { title: 'createdDate', type: "date", tip: "must be in form of yyyy-mm-dd e.g 2025-1-1" }];
 
   metaData: MetaDataResponse<UserFilterResponse> = {
     filters: {
@@ -50,7 +56,6 @@ export class UserListComponent implements OnInit {
   };
 
   selectedMembers: any[] = [];
-
 
   ngOnInit(): void {
     this.initializeQueryParams();
@@ -91,7 +96,22 @@ export class UserListComponent implements OnInit {
 
     Object.keys(this.metaData.filters).forEach((key) => {
       const filterKey = key as keyof UserFilterResponse;
-      this.metaData.filters[filterKey] = params[filterKey]?JSON.parse(params[filterKey]):params[filterKey];
+      let parsedValue;
+      if (params[filterKey] === 'true' || params[filterKey] === 'false') {
+        parsedValue = params[filterKey] === 'true'; // Convert to boolean
+      } else if (filterKey?.includes('Date') && params[filterKey]) {
+        const dateString = params[filterKey];
+        let parts = dateString.split('-');
+        let year = parts[0];
+        let month = parts[1];
+        let day = parts[2].padStart(2, '0');
+        parsedValue = `${year}-${month}-${day}T00:00:00`;
+      }
+      else {
+        // If it's not a boolean string, use the value as-is
+        parsedValue = params[filterKey];
+      }
+      this.metaData.filters[filterKey] = parsedValue;
 
     });
   }
@@ -116,7 +136,6 @@ export class UserListComponent implements OnInit {
             this.metaData.perPage = meta.perPage || this.metaData.perPage;
             this.metaData.totalItems = meta.totalItems || this.metaData.totalItems;
             this.metaData.totalPages = meta.totalPages || this.metaData.totalPages;
-
           } else if (res.status === 404) {
             res.message.forEach((element: any) => {
               this.alert.set(element)
@@ -134,6 +153,5 @@ export class UserListComponent implements OnInit {
       }
     );
   }
-
 
 }

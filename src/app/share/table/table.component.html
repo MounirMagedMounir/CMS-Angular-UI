@@ -45,6 +45,8 @@
       @if(item.title){
       <th>
         <p-columnFilter
+        pTooltip="{{ item.tip }}" 
+        tooltipPosition="right"
           type="{{ item.type }}"
           field="{{ item.title }}"
           placeholder="Search by {{ item.title }}"
