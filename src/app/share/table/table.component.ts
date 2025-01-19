@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, signal } from '@angular/core';
-import { TableModule } from 'primeng/table';
+import { Component, Input, OnInit, signal, ViewChild } from '@angular/core';
+import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
@@ -19,8 +19,10 @@ import { PaginatorModule } from 'primeng/paginator';
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
-export class TableComponent {
+
+export class TableComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) { }
+  @ViewChild('dt', { static: true }) dt!: Table;
 
   @Input() alert = signal("");
   @Input() loading: boolean = true;
@@ -41,14 +43,16 @@ export class TableComponent {
   filteredData: any[] = [];
   selectedMembers: any[] = [];
   filters: { [s: string]: FilterMetadata } = {};
-  first :number= 0;
+  first: number = 0;
 
-  ngOnInit() {  
+  ngOnInit(): void {
+    this.dt.hasFilter = () => false;
     this.first = this.metaData.page * this.metaData.perPage - this.metaData.perPage;
     this.filteredData = this.culemnsFilter.map(obj => obj.title).filter((value) => value != undefined);
     this.route.queryParams.subscribe(params => {
       // Populate filters from query params
       Object.keys(this.metaData.filters).forEach(key => {
+
         const paramValue = params[key];
         let parsedValue;
         if (paramValue !== undefined && paramValue !== null && paramValue.trim() !== '') {
@@ -66,7 +70,7 @@ export class TableComponent {
           this.metaData.filters[key] = parsedValue; // Sync metaData.filters
         } else {
           // If paramValue is undefined or empty, remove the filter
-        
+
           this.metaData.filters[key] = null; // Optional: Reset metaData.filters
         }
       });
@@ -100,20 +104,19 @@ export class TableComponent {
       const updatedParams: any = { ...this.route.snapshot.queryParams };
       // Iterate through filters and update queryParams
       Object.keys(event.filters).forEach(key => {
-        event.filters[key].value =event.filters[key].value===''? null:event.filters[key].value;
+        event.filters[key].value = event.filters[key].value === '' ? null : event.filters[key].value;
         const filter = event.filters[key]; // Get the filter object
         const filterValue = filter?.value; // Safely access value with optional chaining
         const filterKey = key as keyof UserFilterResponse;
         this.metaData.filters[filterKey] = filterValue;
         if (filter && filterValue !== null) {
-            if (updatedParams[filterKey] != filterValue) {
-              updatedParams[filterKey] = filterValue;
-              this.router.navigate([], {
-                queryParams: updatedParams,  // Apply the updated query parameters
-                queryParamsHandling: 'merge',  // Merge with existing parameters
-                replaceUrl: true,  // Replace the URL without adding a new history entry
-              });
-
+          if (updatedParams[filterKey] != filterValue) {
+            updatedParams[filterKey] = filterValue;
+            this.router.navigate([], {
+              queryParams: updatedParams,  // Apply the updated query parameters
+              queryParamsHandling: 'merge',  // Merge with existing parameters
+              replaceUrl: true,  // Replace the URL without adding a new history entry
+            });
           }
         } else {
           if (this.route.snapshot.queryParams[filterKey]) {
@@ -137,6 +140,7 @@ export class TableComponent {
       replaceUrl: true, // Update the current URL without adding a new history entry
     });
   }
+
   clearMessages() {
     this.alert.set("");
   }
