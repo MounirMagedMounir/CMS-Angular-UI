@@ -1,3 +1,18 @@
+@if(selectedUsers.length>0){
+  <div class="delete-button">
+  <p-toast />
+  <p-confirmdialog>
+    <ng-template #message let-message>
+        <div class="flex flex-col items-center w-full gap-4 border-b border-surface-200 dark:border-surface-700">
+            <i class="!text-6xl text-primary-500"></i>
+            <p>{{ message.message }}</p>
+        </div>
+    </ng-template>
+</p-confirmdialog>
+  <p-button (click)="onDelete()" severity="danger" label="Delete" />
+</div>
+}
+
 <app-table
   [loading]="loading"
   [metaData]="metaData"
@@ -5,4 +20,5 @@
   [alert]="alert"
   [culumnsTitle]="culumnsTitle"
   [culemnsFilter]="culemnsFilter"
+  (selectedMembersChange)="onSelectedUsersChange($event)"
 ></app-table>

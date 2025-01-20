@@ -6,28 +6,34 @@ import { MetaDataResponse } from '../../../../core/interface/meta-data-response'
 import { UserFilterResponse } from '../../../../core/interface/user-filter-response';
 import { UserResponse } from '../../../../core/interface/user-response';
 import { UserApiService } from '../../../../core/services/api/user/userApi.service';
-
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
+import { ConfirmationService, MessageService } from 'primeng/api';
 @Component({
   selector: 'app-user-list',
-  imports: [TableComponent],
+  imports: [TableComponent, ConfirmDialogModule, ToastModule, ButtonModule],
+  providers: [ConfirmationService, MessageService],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
+
 })
 export class UserListComponent implements OnInit {
-  constructor(private userApi: UserApiService, private route: ActivatedRoute, private router: Router) { }
+
+  constructor(private userApi: UserApiService, private route: ActivatedRoute, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   alert = signal("");
   loading: boolean = true;
   userList: Array<UserResponse> = [];
 
-  culumnsTitle = [{ title: 'profileImage', sort: false }, { title: 'name', sort: true }, { title: 'userName', sort: true }, { title: 'email', sort: true }, { title: 'phone', sort: true }, { title: 'isActive', sort: true }, { title: 'role', sort: true }, { title: 'createdDate', sort: true }];
-  culemnsFilter = ['', '', { title: 'name', type: "text", tip: "contain string , no special characters" },
+  culumnsTitle = [{ title: 'name', sort: true }, { title: 'userName', sort: true }, { title: 'email', sort: true }, { title: 'phone', sort: true }, { title: 'isActive', sort: true }, { title: 'role', sort: true }, { title: 'createdDate', sort: true }];
+  culemnsFilter = ['', { title: 'name', type: "text", tip: "contain string , no special characters" },
     { title: 'userName', type: "text", tip: "contain only letters, numbers, underscores and periods . Special characters such as @ or # or consecutive underscores or periods or end with an underscore or period are not allowed. " },
     { title: 'email', type: "text", tip: "" },
     { title: 'phone', type: "text", tip: "must contain only numbers . " },
     { title: 'isActive', type: "boolean", tip: "contain true or false" },
-    { title: 'role', type: "text", tip: "contain string , no special characters" },
-    { title: 'createdDate', type: "date", tip: "must be in form of yyyy-mm-dd e.g 2025-1-1" }];
+    { title: 'roleName', type: "text", tip: "contain string , no special characters" },
+    { title: 'createdDateFrom', type: "text", tip: "must be in form of yyyy-mm-dd e.g 2025-1-1" }];
 
   metaData: MetaDataResponse<UserFilterResponse> = {
     filters: {
@@ -55,7 +61,7 @@ export class UserListComponent implements OnInit {
     totalItems: 0,
   };
 
-  selectedMembers: any[] = [];
+  selectedUsers: any[] = [];
 
   ngOnInit(): void {
     this.initializeQueryParams();
@@ -70,6 +76,10 @@ export class UserListComponent implements OnInit {
       );
 
     });
+  }
+
+  onSelectedUsersChange(selectedUsers: any): void {
+    this.selectedUsers = selectedUsers;
   }
 
   initializeQueryParams() {
@@ -113,10 +123,13 @@ export class UserListComponent implements OnInit {
       }
       this.metaData.filters[filterKey] = parsedValue;
 
-    });
+    });  
+     
+
   }
 
   getUsersList(filter: UserFilterResponse, sortOrder: string, sortBy: string, page: number, perPage: number) {
+    sortBy =sortBy.toLocaleLowerCase().includes("role") ? "roleid" : sortBy;
     console.log(filter, sortOrder, sortBy, page, perPage);
     this.userApi.getUsersList(filter, { sortOrder: sortOrder, sortBy: sortBy, skip: page, take: perPage }).subscribe(
       {
@@ -127,10 +140,11 @@ export class UserListComponent implements OnInit {
             this.loading = false;
             this.userList = res.data[0]; // List of users
             const meta = res.data[1]; // Metadata
-
+         
             // Ensure metadata fields are populated correctly
             this.metaData.filters = meta.filters || this.metaData.filters;
             this.metaData.sortBy = meta.sortBy || this.metaData.sortBy;
+            this.metaData.sortBy =meta.sortBy.toLocaleLowerCase().includes("roleid") ? "role" : meta.sortBy
             this.metaData.sortOrder = meta.sortOrder || this.metaData.sortOrder;
             this.metaData.page = meta.page || this.metaData.page;
             this.metaData.perPage = meta.perPage || this.metaData.perPage;
@@ -153,5 +167,34 @@ export class UserListComponent implements OnInit {
       }
     );
   }
+
+  onDelete() {
+    this.confirmationService.confirm({
+      header: 'Confirm to Delete',
+      message: 'Please confirm to Delete Users ' + this.selectedUsers.map((u) => u.name + "  ") + '  .',
+      icon: 'pi pi-exclamation-circle',
+      rejectButtonProps: {
+        label: 'Cancel',
+        icon: 'pi pi-times',
+        outlined: true,
+        size: 'small'
+      },
+      acceptButtonProps: {
+        label: 'Delete',
+        icon: 'pi pi-trash',
+        severity: "danger",
+        size: 'small'
+      },
+      accept: () => {
+        this.deleteUsers();
+        this.messageService.add({ severity: 'error', summary: 'Deleted', detail: 'You have Deleted ' + this.selectedUsers.map((u) => u.name + "  ") + '  .', life: 3000 });
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'info', summary: 'Canceled', detail: 'You have Canceled', life: 3000 });
+      }
+    });
+  }
+
+  deleteUsers() { }
 
 }

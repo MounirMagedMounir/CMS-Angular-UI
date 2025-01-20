@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, signal, ViewChild } from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
-import { UserFilterResponse } from '../../core/interface/user-filter-response';
 import { Message } from 'primeng/message';
 import { AvatarModule } from 'primeng/avatar';
 import { MetaDataResponse } from '../../core/interface/meta-data-response';
@@ -41,10 +40,12 @@ export class TableComponent implements OnInit {
   @Input() culemnsFilter: any[] = [];
 
   filteredData: any[] = [];
-  selectedMembers: any[] = [];
   filters: { [s: string]: FilterMetadata } = {};
   first: number = 0;
 
+  selectedMembers: any[] = [];
+  @Output() selectedMembersChange = new EventEmitter<any[]>();
+  
   ngOnInit(): void {
     this.dt.hasFilter = () => false;
     this.first = this.metaData.page * this.metaData.perPage - this.metaData.perPage;
@@ -77,6 +78,10 @@ export class TableComponent implements OnInit {
     });
   }
 
+  onSelectionChange(event: any): void {
+    this.selectedMembersChange.emit(this.selectedMembers);
+  }
+
   customSort(event: SortEvent) {
     if (event.field) {
       // Update metadata directly to avoid redundant subscriptions
@@ -107,11 +112,10 @@ export class TableComponent implements OnInit {
         event.filters[key].value = event.filters[key].value === '' ? null : event.filters[key].value;
         const filter = event.filters[key]; // Get the filter object
         const filterValue = filter?.value; // Safely access value with optional chaining
-        const filterKey = key as keyof UserFilterResponse;
-        this.metaData.filters[filterKey] = filterValue;
+        this.metaData.filters[key] = filterValue;
         if (filter && filterValue !== null) {
-          if (updatedParams[filterKey] != filterValue) {
-            updatedParams[filterKey] = filterValue;
+          if (updatedParams[key] != filterValue) {
+            updatedParams[key] = filterValue;
             this.router.navigate([], {
               queryParams: updatedParams,  // Apply the updated query parameters
               queryParamsHandling: 'merge',  // Merge with existing parameters
@@ -119,8 +123,8 @@ export class TableComponent implements OnInit {
             });
           }
         } else {
-          if (this.route.snapshot.queryParams[filterKey]) {
-            delete updatedParams[filterKey];
+          if (this.route.snapshot.queryParams[key]) {
+            delete updatedParams[key];
             this.router.navigate([], {
               queryParams: updatedParams,  // Apply the updated query parameters
               queryParamsHandling: 'replace',  // Merge with existing parameters

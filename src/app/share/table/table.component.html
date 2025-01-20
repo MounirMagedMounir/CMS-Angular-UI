@@ -9,7 +9,8 @@
 </div>
 }
 
-<p-table #dt 
+<p-table
+  #dt
   [value]="rowsData"
   dataKey="id"
   [loading]="loading"
@@ -21,9 +22,9 @@
   (sortFunction)="customSort($event)"
   (onFilter)="handleFilter($event)"
   [filters]="filters"
-  [sortOrder]="metaData.sortOrder==='asc' ? 1 : -1"
+  [sortOrder]="metaData.sortOrder === 'asc' ? 1 : -1"
   [sortField]="metaData.sortBy"
-  
+  (selectionChange)="onSelectionChange($event)"
 >
   <ng-template #header>
     <tr>
@@ -31,7 +32,7 @@
         <p-tableHeaderCheckbox />
       </th>
 
-      @for (item of culumnsTitle; track $index) { @if (item.sort ) {
+      @for (item of culumnsTitle; track $index) { @if (item.sort) {
       <th pSortableColumn="{{ item.title }}">
         {{ item.title.charAt(0).toUpperCase() + item.title.slice(1) }}
         <p-sortIcon field="{{ item.title }}" />
@@ -41,12 +42,11 @@
       } }
     </tr>
     <tr>
-      @for (item of culemnsFilter; track $index) {
-      @if(item.title){
+      @for (item of culemnsFilter; track $index) { @if(item.title){
       <th>
         <p-columnFilter
-        pTooltip="{{ item.tip }}" 
-        tooltipPosition="right"
+          pTooltip="{{ item.tip }}"
+          tooltipPosition="right"
           type="{{ item.type }}"
           field="{{ item.title }}"
           placeholder="Search by {{ item.title }}"
@@ -65,16 +65,25 @@
       <td>
         <p-tableCheckbox [value]="rowData" />
       </td>
-      @for (item of culumnsTitle; track $index) { @if(item.title
-      ==='profileImage'){
+      @for (item of culumnsTitle; track $index) {
+      @if(item.title.toLocaleLowerCase().includes('image')){
+      <td>
+        <p-avatar
+          [image]="rowData?.[item.title]"
+          shape="circle"
+          alt="Image"
+          />
+      </td>
+      }@else if(item.title.toLocaleLowerCase()==="name"){
       <td>
         <p-avatar
           [image]="rowData?.profileImage"
           shape="circle"
           alt="profileImage"
         />
+        {{ rowData[item.title] }}
       </td>
-      }@else {
+      }@else{
       <td>{{ rowData[item.title] }}</td>
       } }
     </tr>
@@ -84,7 +93,12 @@
       <td colspan="10">No users found.</td>
     </tr>
   </ng-template>
-
 </p-table>
 
-<p-paginator (onPageChange)="pageChange($event)" [first]="first" [rows]="metaData.perPage" [totalRecords]="metaData.totalItems" [rowsPerPageOptions]="[5, 10, 20]" />
+<p-paginator
+  (onPageChange)="pageChange($event)"
+  [first]="first"
+  [rows]="metaData.perPage"
+  [totalRecords]="metaData.totalItems"
+  [rowsPerPageOptions]="[5, 10, 20]"
+/>
