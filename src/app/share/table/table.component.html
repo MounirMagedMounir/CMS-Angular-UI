@@ -68,23 +68,23 @@
       @for (item of culumnsTitle; track $index) {
       @if(item.title.toLocaleLowerCase().includes('image')){
       <td>
-        <p-avatar
-          [image]="rowData?.[item.title]"
-          shape="circle"
-          alt="Image"
-          />
+        <p-avatar [image]="rowData?.[item.title]" shape="circle" alt="Image" />
       </td>
       }@else if(item.title.toLocaleLowerCase()==="name"){
       <td>
+        <div class="inline-avatar">
         <p-avatar
           [image]="rowData?.profileImage"
           shape="circle"
           alt="profileImage"
         />
-        {{ rowData[item.title] }}
+        <span> {{ rowData[item.title] }}</span>
+      </div>
       </td>
       }@else{
-      <td>{{ rowData[item.title] }}</td>
+      <td>
+        <span> {{ rowData[item.title] }}</span>
+      </td>
       } }
     </tr>
   </ng-template>
