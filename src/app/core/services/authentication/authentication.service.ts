@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { UserResponse } from '../../interface/user-response';
+import { UserResponse } from '../../../features/users/interface/user-response';
 import { UserApiService } from '../api/user/userApi.service';
 import { ApiResponse } from '../../interface/api-response';
 

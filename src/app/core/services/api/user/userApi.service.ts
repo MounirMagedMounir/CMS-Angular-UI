@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
-import { UserFilterResponse } from '../../../interface/user-filter-response';
+import { UserFilterResponse } from '../../../../features/users/interface/user-filter-response';
 
 @Injectable({
   providedIn: 'root'
