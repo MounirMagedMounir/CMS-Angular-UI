@@ -25,8 +25,8 @@ export class TableComponent implements OnInit {
   @ViewChild('dt', { static: true }) dt!: Table;
 
   @Input() alert = signal("");
-  @Input() loading: boolean = true;
-  @Input() rowsData: Array<any> = [];
+  @Input() isLoading: boolean = true;
+  @Input() rowsData: Array<any>|undefined|null = undefined;
   @Input() metaData: MetaDataResponse<any> = {
     filters: {
     },

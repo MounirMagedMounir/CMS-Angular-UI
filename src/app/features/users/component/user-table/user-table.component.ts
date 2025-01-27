@@ -24,8 +24,8 @@ export class UserTableComponent implements OnInit {
   constructor(private userApi: UserApiService, private route: ActivatedRoute, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   alert = signal("");
-  loading: boolean = true;
-  userList: Array<UserResponse> = [];
+  isLoading: boolean = true;
+  userList: Array<UserResponse>|undefined|null = undefined;
 
   culumnsTitle = [{ title: 'name', sort: true }, { title: 'userName', sort: true }, { title: 'email', sort: true }, { title: 'phone', sort: true }, { title: 'isActive', sort: true }, { title: 'role', sort: true }, { title: 'createdDate', sort: true }];
   culemnsFilter = [ { title: 'name', type: "text", tip: "contain string , no special characters" },
@@ -143,7 +143,7 @@ export class UserTableComponent implements OnInit {
           const res = response as ApiResponse<[Array<UserResponse>, MetaDataResponse<UserFilterResponse>]>;
           if (res.status === 200) {
             this.alert.set("");
-            this.loading = false;
+            this.isLoading = false;
             this.userList = res.data[0]; // List of users
             const meta = res.data[1]; // Metadata
 
@@ -165,7 +165,7 @@ export class UserTableComponent implements OnInit {
         },
         error: (error) => {
           this.alert.set("");
-          this.loading = false;
+          this.isLoading = false;
           this.alert.set('An error occurred while fetching user data.');
           console.error(error);
         }

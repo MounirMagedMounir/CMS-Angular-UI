@@ -11,9 +11,9 @@
 
 <p-table
   #dt
-  [value]="rowsData"
+  [value]="rowsData || []"
   dataKey="id"
-  [loading]="loading"
+  [loading]="isLoading"
   [globalFilterFields]="filteredData"
   [selectionMode]="selection.mode"
   [(selection)]="selectedMembers"
