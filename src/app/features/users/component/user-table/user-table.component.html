@@ -1,0 +1,13 @@
+
+<app-table
+  [loading]="loading"
+  [metaData]="metaData"
+  [rowsData]="userList"
+  [alert]="alert"
+  [culumnsTitle]="culumnsTitle"
+  [culemnsFilter]="culemnsFilter"
+  [checkbox]="checkbox"
+  [selection]="selection"
+  (selectedMembersChange)="onSelectedUsersChange($event)"
+  [actionButtons]="actionButtons"
+></app-table>

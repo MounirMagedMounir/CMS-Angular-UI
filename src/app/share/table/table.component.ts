@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { PaginatorModule } from 'primeng/paginator';
 import { Tooltip } from 'primeng/tooltip';
+
 @Component({
   selector: 'app-table',
   imports: [CommonModule, TableModule, TagModule, DropdownModule, FormsModule, Message, AvatarModule, ButtonModule, PaginatorModule, Tooltip],
@@ -38,14 +39,20 @@ export class TableComponent implements OnInit {
   };
   @Input() culumnsTitle: any[] = [];
   @Input() culemnsFilter: any[] = [];
+  @Input() selection:any = {};
+  @Input() checkbox: boolean = false;
+
+  @Input() actionButtons: any[]=[];
+
+  @Output() selectedMembersChange = new EventEmitter<any[]>();
 
   filteredData: any[] = [];
   filters: { [s: string]: FilterMetadata } = {};
   first: number = 0;
 
   selectedMembers: any[] = [];
-  @Output() selectedMembersChange = new EventEmitter<any[]>();
-  
+
+
   ngOnInit(): void {
     this.dt.hasFilter = () => false;
     this.first = this.metaData.page * this.metaData.perPage - this.metaData.perPage;
@@ -71,7 +78,9 @@ export class TableComponent implements OnInit {
           this.metaData.filters[key] = parsedValue; // Sync metaData.filters
         } else {
           // If paramValue is undefined or empty, remove the filter
-
+          this.filters[key] =
+          { value: null, matchMode: 'contains', operator: 'or' }
+          ;
           this.metaData.filters[key] = null; // Optional: Reset metaData.filters
         }
       });
@@ -134,6 +143,10 @@ export class TableComponent implements OnInit {
         }
       });
     }
+  }
+  
+  navigateTo(url:string){
+    this.router.navigate([url]);
   }
 
   pageChange(event: any) {

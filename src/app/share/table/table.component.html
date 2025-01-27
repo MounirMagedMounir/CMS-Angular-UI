@@ -15,9 +15,9 @@
   dataKey="id"
   [loading]="loading"
   [globalFilterFields]="filteredData"
-  selectionMode="single"
+  [selectionMode]="selection.mode"
   [(selection)]="selectedMembers"
-  [metaKeySelection]="true"
+  [metaKeySelection]="selection.metaKey"
   [customSort]="true"
   (sortFunction)="customSort($event)"
   (onFilter)="handleFilter($event)"
@@ -28,11 +28,11 @@
 >
   <ng-template #header>
     <tr>
+      @if (checkbox) {
       <th style="width: 50px">
         <p-tableHeaderCheckbox />
       </th>
-
-      @for (item of culumnsTitle; track $index) { @if (item.sort) {
+      } @for (item of culumnsTitle; track $index) { @if (item.sort) {
       <th pSortableColumn="{{ item.title }}">
         {{ item.title.charAt(0).toUpperCase() + item.title.slice(1) }}
         <p-sortIcon field="{{ item.title }}" />
@@ -40,12 +40,14 @@
       }@else{
       <th>{{ item.title }}</th>
       } }
+      <th style="min-width: 12rem"></th>
     </tr>
     <tr>
       @for (item of culemnsFilter; track $index) { @if(item.title){
       <th>
         <p-columnFilter
           pTooltip="{{ item.tip }}"
+          tooltipEvent="focus"
           tooltipPosition="right"
           type="{{ item.type }}"
           field="{{ item.title }}"
@@ -57,15 +59,19 @@
       }@else {
       <th></th>
       } }
+      @if(actionButtons.length > 0){
+      <th style="min-width: 12rem"></th>
+    }
     </tr>
   </ng-template>
 
   <ng-template #body let-rowData>
-    <tr>
+    <tr [pSelectableRow]="rowData">
+      @if (checkbox) {
       <td>
         <p-tableCheckbox [value]="rowData" />
       </td>
-      @for (item of culumnsTitle; track $index) {
+      } @for (item of culumnsTitle; track $index) {
       @if(item.title.toLocaleLowerCase().includes('image')){
       <td>
         <p-avatar [image]="rowData?.[item.title]" shape="circle" alt="Image" />
@@ -73,26 +79,43 @@
       }@else if(item.title.toLocaleLowerCase()==="name"){
       <td>
         <div class="inline-avatar">
-        <p-avatar
-          [image]="rowData?.profileImage"
-          shape="circle"
-          alt="profileImage"
-        />
-        <span> {{ rowData[item.title] }}</span>
-      </div>
+          <p-avatar
+            [image]="rowData?.profileImage"
+            shape="circle"
+            alt="profileImage"
+          />
+          <span> {{ rowData[item.title] }}</span>
+        </div>
       </td>
       }@else{
       <td>
         <span> {{ rowData[item.title] }}</span>
       </td>
       } }
+
+      <td>
+        @for (button of actionButtons; track $index) {
+          <div  class="action-buttons">
+        <p-button
+          icon="{{button.icon}}"
+          class="mr-2 "
+          [severity]="button.severity"
+          [rounded]="true"
+          [outlined]="true"
+          (onClick)="navigateTo(button.url+rowData['id'])"
+        />
+      </div>
+    }
+      </td>
     </tr>
   </ng-template>
+
   <ng-template #emptymessage>
     <tr>
       <td colspan="10">No users found.</td>
     </tr>
   </ng-template>
+
 </p-table>
 
 <p-paginator

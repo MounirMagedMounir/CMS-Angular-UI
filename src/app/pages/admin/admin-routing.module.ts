@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
-import { UserComponent } from './user/user.component';
+import { UserListComponent } from './user/user-list/user-list.component';
 import { roleAdminPagesGuard } from '../../core/guards/role/roleAdminPages/role-admin-pages.guard';
 import { AdminComponent } from './admin.component';
 import { RoleComponent } from './role/role.component';
@@ -18,14 +18,15 @@ const routes: Routes = [{
   path: 'login',
   canActivate: [unAuthAdminGuard],
   component: AdminLoginComponent
-},
-{
+}, {
+
   path: 'user',
   canActivate: [
     roleAdminPagesGuard,
-     adminAuthGuard],
-  component: UserComponent
+    adminAuthGuard],
+  loadChildren: () => import('./user/user.module').then(m => m.UserModule)
 },
+
 {
   path: 'role',
   canActivate: [roleAdminPagesGuard, adminAuthGuard],
