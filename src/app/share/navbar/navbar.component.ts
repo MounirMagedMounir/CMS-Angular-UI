@@ -40,24 +40,29 @@ export class NavbarComponent implements OnInit {
             }
         ];
 
-        this.adminMenu = [
-            {
-                label: 'Admin',
-                icon: 'pi pi-search',
-                items: [
+        this.adminMenu = [{
+            label: 'Admin',
+            icon: 'pi pi-chart-bar',
+            route: '/admin',
+        }
+            ,
+        {
+            label: '',
+            icon: 'pi pi-fw pi-angle-down',
+            items: [
 
-                    {
-                        label: 'Users',
-                        icon: 'pi pi-home',
-                        route: '/admin/user'
-                    },
-                    {
-                        label: 'role',
-                        icon: 'pi pi-home',
-                        route: '/admin/role'
-                    }
-                ]
-            }
+                {
+                    label: 'Users',
+                    icon: 'pi pi-users',
+                    route: '/admin/user/dashboard'
+                },
+                {
+                    label: 'role',
+                    icon: 'pi pi-key',
+                    route: '/admin/role/dashboard'
+                }
+            ]
+        }
         ]
 
         this.endMenu = [

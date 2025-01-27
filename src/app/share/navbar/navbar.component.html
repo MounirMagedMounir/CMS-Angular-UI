@@ -1,6 +1,7 @@
 <p-menubar
   [model]="auth.isAdmin() ? adminMenu :mainMenu "
 >
+
   <ng-template #start>
     <a href="/">
       <img
@@ -13,9 +14,11 @@
   </ng-template>
 
   <ng-template #item let-item let-root="root">
-    <a pRipple [routerLink]="item.route" class="flex items-center p-menubar-item-link">
-      <span>{{ item.label }}</span>
-    </a>
+      <a pRipple [routerLink]="item.route" class=" items-center p-menubar-item-link">
+        <span>{{ item.label }}</span> 
+       <span class="{{item.icon}} ml-2"></span>
+      </a>
+      
   </ng-template>
 
   <ng-template #end>
@@ -62,4 +65,5 @@
       </div>
     </ng-template>
   </ng-template>
+
 </p-menubar>
