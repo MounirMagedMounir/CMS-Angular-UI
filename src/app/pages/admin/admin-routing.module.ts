@@ -28,7 +28,7 @@ const routes: Routes = [{
 },
 
 {
-  path: 'role',
+  path: 'role/dashboard',
   canActivate: [roleAdminPagesGuard, adminAuthGuard],
   component: RoleComponent
 }
