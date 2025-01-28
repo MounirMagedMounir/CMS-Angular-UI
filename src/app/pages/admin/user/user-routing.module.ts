@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserListComponent } from './user-list/user-list.component';
-import { UserDetailsComponent } from '../../../features/users/component/user-details/user-details.component';
+import { UserEditComponent } from './user-edit/user-edit.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'edit/:id',
-    component: UserDetailsComponent
+    component: UserEditComponent
   },
 ];
 
