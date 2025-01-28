@@ -1,0 +1,34 @@
+<div class="profile-container">
+  <!-- Profile Header -->
+  <div *ngIf="data.email" class="profile-header">
+    <p-avatar
+      shape="circle"
+      size="large"
+      class="profile-avatar"
+      [style]="{ width: '100px', height: '100px' }"
+      image="{{ data.profileImage }}"
+    ></p-avatar>
+    <div class="profile-info">
+      <h2>{{ data.userName }}</h2>
+      <p>{{ data.email }}</p>
+    </div>
+  </div>
+
+  <!-- Profile Details -->
+  <div class="profile-sections">
+    @for (item of data.culomn; track $index) {
+    <div class="profile-row">
+       @for (itemculem of item; track $index) {
+      <div class="profile-column">
+        <p-panel header="{{ itemculem.culomnName }}" class="profile-panel">
+          @for (rowdata of itemculem.rows; track $index) {
+          <p>
+            <strong>{{ rowdata.name }}</strong> <span [ngClass]="rowdata?.value === true ? 'status active' : (rowdata?.value === false ? 'status unactive' : '')">{{ rowdata?.value }}</span>
+          </p>
+          }
+        </p-panel>
+      </div>}
+    </div>
+    }
+  </div>
+</div>
