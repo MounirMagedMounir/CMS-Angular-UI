@@ -12,7 +12,7 @@ import { ApiResponse } from '../../../core/interface/api-response';
 import { AuthResponse } from '../../../core/interface/auth-response';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { AdminauthenticationApiService } from '../../../core/services/api/adminAuthentication/adminauthenticationApi.service';
+import { AdminauthenticationApiService } from '../../../core/services/api/adminAuthentication/admin-authentication-api.service';
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service';
 
 @Component({

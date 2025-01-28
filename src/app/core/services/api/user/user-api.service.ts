@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
-import { UserFilterResponse } from '../../../../features/users/interface/user-filter-response';
+import { UserFilterResponse } from '../../../interface/user/user-filter-response';
 
 @Injectable({
   providedIn: 'root'
@@ -13,5 +13,8 @@ getcurrentUser(){
 };
 getUsersList(data:UserFilterResponse,queryParam:any){
   return this.api.Post('/User/GetList',queryParam,data);
+};
+getUserById(queryParam:any){
+  return this.api.Get('/User/GetById',queryParam);
 };
 }

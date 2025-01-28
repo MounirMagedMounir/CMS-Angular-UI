@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AdminauthenticationApiService } from './adminauthenticationApi.service';
+import { AdminauthenticationApiService } from './admin-authentication-api.service';
 
 describe('AdminauthenticationApiService', () => {
   let service: AdminauthenticationApiService;

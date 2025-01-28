@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { userAuthenticationApiService } from '../../core/services/api/userAuthentication/userauthenticationApi.service';
+import { userAuthenticationApiService } from '../../core/services/api/userAuthentication/user-authentication-api.service';
 import { ApiResponse } from '../../core/interface/api-response';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { AuthenticationService } from '../../core/services/authentication/authentication.service';

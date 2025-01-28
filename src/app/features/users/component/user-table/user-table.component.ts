@@ -3,9 +3,9 @@ import { TableComponent } from '../../../../share/table/table.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiResponse } from '../../../../core/interface/api-response';
 import { MetaDataResponse } from '../../../../core/interface/meta-data-response';
-import { UserFilterResponse } from '../../interface/user-filter-response';
-import { UserResponse } from '../../interface/user-response';
-import { UserApiService } from '../../../../core/services/api/user/userApi.service';
+import { UserFilterResponse } from '../../../../core/interface/user/user-filter-response';
+import { UserResponse } from '../../../../core/interface/user/user-response';
+import { UserApiService } from '../../../../core/services/api/user/user-api.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
@@ -25,16 +25,16 @@ export class UserTableComponent implements OnInit {
 
   alert = signal("");
   isLoading: boolean = true;
-  userList: Array<UserResponse>|undefined|null = undefined;
+  userList: Array<UserResponse> | undefined | null = undefined;
 
   culumnsTitle = [{ title: 'name', sort: true }, { title: 'userName', sort: true }, { title: 'email', sort: true }, { title: 'phone', sort: true }, { title: 'isActive', sort: true }, { title: 'role', sort: true }, { title: 'createdDate', sort: true }];
-  culemnsFilter = [ { title: 'name', type: "text", tip: "contain string , no special characters" },
-    { title: 'userName', type: "text", tip: "contain only letters, numbers, underscores and periods . Special characters such as @ or # or consecutive underscores or periods or end with an underscore or period are not allowed. " },
-    { title: 'email', type: "text", tip: "" },
-    { title: 'phone', type: "text", tip: "must contain only numbers . " },
-    { title: 'isActive', type: "boolean", tip: "contain true or false" },
-    { title: 'roleName', type: "text", tip: "contain string , no special characters" },
-    { title: 'createdDateFrom', type: "text", tip: "must be in form of yyyy-mm-dd e.g 2025-1-1" }];
+  culemnsFilter = [{ title: 'name', type: "text", tip: "contain string , no special characters" },
+  { title: 'userName', type: "text", tip: "contain only letters, numbers, underscores and periods . Special characters such as @ or # or consecutive underscores or periods or end with an underscore or period are not allowed. " },
+  { title: 'email', type: "text", tip: "" },
+  { title: 'phone', type: "text", tip: "must contain only numbers . " },
+  { title: 'isActive', type: "boolean", tip: "contain true or false" },
+  { title: 'roleName', type: "text", tip: "contain string , no special characters" },
+  { title: 'createdDateFrom', type: "text", tip: "must be in form of yyyy-mm-dd e.g 2025-1-1" }];
 
   metaData: MetaDataResponse<UserFilterResponse> = {
     filters: {
@@ -63,7 +63,7 @@ export class UserTableComponent implements OnInit {
   };
 
   checkbox: boolean = false;
-  selection = { mode: "", metaKey: false};
+  selection = { mode: "", metaKey: false };
   selectedUsers: any[] = [];
 
   actionButtons = [{ icon: 'pi pi-pencil', url: "/admin/user/edit/", severity: null }, { icon: 'pi pi-trash', url: "", severity: "danger" }];
@@ -85,7 +85,7 @@ export class UserTableComponent implements OnInit {
 
   onSelectedUsersChange(selectedUsers: any): void {
     this.selectedUsers = selectedUsers;
-    this.router.navigate(["/admin/user/edit/"+selectedUsers.id]);
+    this.router.navigate(["/admin/user/edit/" + selectedUsers.id]);
   }
 
   initializeQueryParams() {

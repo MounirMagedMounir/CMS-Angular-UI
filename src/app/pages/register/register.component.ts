@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { userAuthenticationApiService } from '../../core/services/api/userAuthentication/userauthenticationApi.service';
+import { userAuthenticationApiService } from '../../core/services/api/userAuthentication/user-authentication-api.service';
 import { ApiResponse } from '../../core/interface/api-response';
 import { AuthResponse } from '../../core/interface/auth-response';
 import { Message } from 'primeng/message';

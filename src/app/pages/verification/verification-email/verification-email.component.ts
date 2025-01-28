@@ -8,7 +8,7 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { userAuthenticationApiService } from '../../../core/services/api/userAuthentication/userauthenticationApi.service';
+import { userAuthenticationApiService } from '../../../core/services/api/userAuthentication/user-authentication-api.service';
 import { ApiResponse } from '../../../core/interface/api-response';
 import { AuthResponse } from '../../../core/interface/auth-response';
 import { FocusTrapModule } from 'primeng/focustrap';
