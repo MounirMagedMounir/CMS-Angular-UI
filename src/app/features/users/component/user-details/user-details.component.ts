@@ -3,12 +3,12 @@ import { UserApiService } from '../../../../core/services/api/user/user-api.serv
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiResponse } from '../../../../core/interface/api-response';
 import { UserResponse } from '../../../../core/interface/user/user-response';
-import { Message } from 'primeng/message';
 import { LoadingComponent } from '../../../../share/loading/loading.component';
 import { DetailsComponent } from '../../../../share/details/details.component';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-user-details',
-  imports: [Message, LoadingComponent, DetailsComponent],
+  imports: [ LoadingComponent, DetailsComponent],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss',
 })
@@ -16,9 +16,10 @@ export class UserDetailsComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private userApi: UserApiService
+    private userApi: UserApiService,
+    private messageService: MessageService
   ) {}
-  protected alert = signal('');
+  
   protected isLoading = signal(true);
   protected userData = signal<UserResponse>({
     id: 0,
@@ -46,16 +47,18 @@ export class UserDetailsComponent implements OnInit {
       next: (response: any) => {
         const res = response as ApiResponse<Array<UserResponse>>;
         if (res.status === 200) {
-          this.alert.set('');
           this.isLoading.set(false);
           this.userData.set(res.data[0]);  
           this.initializeLayout();
           console.log(res.data[0]);
         } else if (res.status === 400) {
-          res.message.forEach((element: any) => {
-            this.alert.set(element);
-          });
 
+            this.messageService.add({
+              key: 'toast',
+              severity: 'error',
+              summary: 'user not found',
+              detail: res.message.toString(),
+            });
           console.error(res);
           setTimeout(() => {
             this.router.navigate(['/admin/user/dashboard']);
@@ -63,9 +66,14 @@ export class UserDetailsComponent implements OnInit {
         }
       },
       error: (error) => {
-        this.alert.set('');
         this.isLoading.set(false);
-        this.alert.set('An error occurred while fetching user user.');
+        this.messageService.add({
+          key: 'toast',
+          severity: 'error',
+          summary: 'An error occurred while fetching user user.',
+          detail: error.message,
+        });
+
         console.error(error);
       },
     });
@@ -136,7 +144,5 @@ export class UserDetailsComponent implements OnInit {
     return new Date(date).toLocaleDateString();
   }
 
-  clearMessages() {
-    this.alert.set('');
-  }
+
 }

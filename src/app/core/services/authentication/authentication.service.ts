@@ -27,7 +27,6 @@ export class AuthenticationService {
       } else {
         this.userService.getcurrentUser().subscribe({
           next: (response: any) => {
-            console.log("response succ" );
             const res = response as ApiResponse<Array<UserResponse>>;
             if (res.status === 200) {
               // User found, set the authentication state

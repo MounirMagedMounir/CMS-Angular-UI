@@ -16,6 +16,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { AuthenticationService } from '../../core/services/authentication/authentication.service';
 import { FocusTrapModule } from 'primeng/focustrap';
 import { AutoFocusModule } from 'primeng/autofocus';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-login',
   imports: [CommonModule, RouterLink, FormsModule, ReactiveFormsModule, Message, InputTextModule, PasswordModule, Checkbox, ButtonModule, FloatLabelModule, InputGroup, InputGroupAddonModule,FocusTrapModule,AutoFocusModule],
@@ -25,18 +26,13 @@ import { AutoFocusModule } from 'primeng/autofocus';
 
 export class LoginComponent {
 
-  constructor(private router: Router, private userAuthApi: userAuthenticationApiService,private auth:AuthenticationService) { }
+  constructor(private router: Router, private userAuthApi: userAuthenticationApiService,private auth:AuthenticationService,private messageService:MessageService) { }
   errors: string[] = [""];
-  alert = signal("");
   hide = signal(true);
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
-  }
-
-  clearMessages() {
-    this.alert.set("");
   }
 
   logInForm = new FormGroup(
@@ -50,7 +46,7 @@ export class LoginComponent {
 
   onSubmit() {
     this.errors = [""];
-    this.alert.set("");
+ 
     this.userAuthApi.logIn(this.logInForm.getRawValue())
       .subscribe(
         {
@@ -67,11 +63,24 @@ export class LoginComponent {
                 //  console.log("eelementrror " + element); 
                  this.errors.push(element) });
             } else if (res.status === 404) {
-
-              this.alert.set(res.message.toString());
+              this.messageService.add({
+                key: 'toast',
+                severity: 'error',
+                summary: 'Log in failed ',
+                detail: res.message.toString(),
+              });
+      
+     
             }
           },
           error: (error) => {
+            this.messageService.add({
+              key: 'toast',
+              severity: 'error',
+              summary: 'something went wrong',
+              detail: 'please try again later.',
+            });
+    
             console.log("server error " + error);
           }
         }

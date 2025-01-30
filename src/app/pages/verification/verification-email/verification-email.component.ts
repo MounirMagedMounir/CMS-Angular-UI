@@ -1,5 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {  FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Message } from 'primeng/message';
@@ -13,6 +13,7 @@ import { ApiResponse } from '../../../core/interface/api-response';
 import { AuthResponse } from '../../../core/interface/auth-response';
 import { FocusTrapModule } from 'primeng/focustrap';
 import { AutoFocusModule } from 'primeng/autofocus';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-verification-email',
@@ -21,9 +22,9 @@ import { AutoFocusModule } from 'primeng/autofocus';
   styleUrl: './verification-email.component.scss'
 })
 export class VerificationEmailComponent implements OnInit{
- constructor(private router: Router,private route: ActivatedRoute, private auth: userAuthenticationApiService) { }
+ constructor(private router: Router,private route: ActivatedRoute, private auth: userAuthenticationApiService,private messageService:MessageService) { }
   errors: string[] = [""];
-  alert = signal("");
+ 
   
     emailVerificationForm = new FormGroup(
     {
@@ -39,12 +40,9 @@ export class VerificationEmailComponent implements OnInit{
 // console.log("email "+this.route.snapshot.paramMap.get('email'));
   }
 
-  clearMessages() {
-    this.alert.set("");
-  }
+
   onSubmit() {
     this.errors = [""];
-    this.alert.set("");
     this.auth.emailVerification(this.emailVerificationForm.getRawValue())
       .subscribe(
         {
@@ -59,8 +57,14 @@ export class VerificationEmailComponent implements OnInit{
                 // console.log("eelementrror " + element);
                  this.errors.push(element) });
             } else if (res.status === 404) {
-
-              this.alert.set(res.message.toString());
+              this.messageService.add({
+                key: 'toast',
+                sticky: true,
+                severity: 'error',
+                summary: 'not found',
+                detail:res.message.toString(),
+              });
+             
             }
           },
           error: (error) => {

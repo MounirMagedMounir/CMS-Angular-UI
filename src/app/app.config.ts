@@ -9,6 +9,8 @@ import Aura from '@primeng/themes/aura';
 import { tokenInterceptor } from './core/interceptor/token.interceptor';
 import { refreshTokenInterceptor } from './core/interceptor/refresh-token.interceptor';
 import { AuthenticationService } from './core/services/authentication/authentication.service';
+import { MessageService } from 'primeng/api';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,7 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimations(), 
     provideAnimationsAsync(),
-    provideAppInitializer(() => inject(AuthenticationService).initializeAuthentication()),
+    provideAppInitializer(() => {inject(AuthenticationService).initializeAuthentication();inject(MessageService)}),
     provideHttpClient(
       withInterceptors([refreshTokenInterceptor, tokenInterceptor])
     ),
@@ -24,6 +26,6 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Aura
       }
-    })
+    }),MessageService
   ],
 };

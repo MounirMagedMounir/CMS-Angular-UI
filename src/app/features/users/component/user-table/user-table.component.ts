@@ -9,21 +9,19 @@ import { UserApiService } from '../../../../core/services/api/user/user-api.serv
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-user-table',
   imports: [TableComponent, ConfirmDialogModule, ToastModule, ButtonModule],
-  providers: [ConfirmationService, MessageService],
   templateUrl: './user-table.component.html',
   styleUrl: './user-table.component.scss'
 })
 
 export class UserTableComponent implements OnInit {
 
-  constructor(private userApi: UserApiService, private route: ActivatedRoute, private router: Router, private confirmationService: ConfirmationService, private messageService: MessageService) { }
+  constructor(private userApi: UserApiService, private route: ActivatedRoute, private router: Router,private messageService:MessageService) { }
 
-  alert = signal("");
   isLoading: boolean = true;
   userList: Array<UserResponse> | undefined | null = undefined;
 
@@ -142,7 +140,7 @@ export class UserTableComponent implements OnInit {
         next: (response: any) => {
           const res = response as ApiResponse<[Array<UserResponse>, MetaDataResponse<UserFilterResponse>]>;
           if (res.status === 200) {
-            this.alert.set("");
+           
             this.isLoading = false;
             this.userList = res.data[0]; // List of users
             const meta = res.data[1]; // Metadata
@@ -157,16 +155,25 @@ export class UserTableComponent implements OnInit {
             this.metaData.totalItems = meta.totalItems || this.metaData.totalItems;
             this.metaData.totalPages = meta.totalPages || this.metaData.totalPages;
           } else if (res.status === 404) {
-            res.message.forEach((element: any) => {
-              this.alert.set(element)
+
+            this.messageService.add({
+              key: 'toast',
+              severity: 'error',
+              summary: 'could not fetch users data',
+              detail: res.message.toString(),
             });
+    
             console.error(res);
           }
         },
         error: (error) => {
-          this.alert.set("");
           this.isLoading = false;
-          this.alert.set('An error occurred while fetching user data.');
+          this.messageService.add({
+            key: 'toast',
+            severity: 'error',
+            summary: 'An error occurred while fetching user data.',
+            detail: error.toString(),
+          });
           console.error(error);
         }
 

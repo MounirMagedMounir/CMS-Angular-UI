@@ -4,7 +4,6 @@ import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
-import { Message } from 'primeng/message';
 import { AvatarModule } from 'primeng/avatar';
 import { MetaDataResponse } from '../../core/interface/meta-data-response';
 import { FilterMetadata, SortEvent } from 'primeng/api';
@@ -15,7 +14,7 @@ import { Tooltip } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-table',
-  imports: [CommonModule, TableModule, TagModule, DropdownModule, FormsModule, Message, AvatarModule, ButtonModule, PaginatorModule, Tooltip],
+  imports: [CommonModule, TableModule, TagModule, DropdownModule, FormsModule, AvatarModule, ButtonModule, PaginatorModule, Tooltip],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
@@ -24,10 +23,10 @@ export class TableComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) { }
   @ViewChild('dt', { static: true }) dt!: Table;
 
-  @Input() alert = signal("");
-  @Input() isLoading: boolean = true;
-  @Input() rowsData: Array<any>|undefined|null = undefined;
-  @Input() metaData: MetaDataResponse<any> = {
+ 
+  @Input({required:true}) isLoading: boolean = true;
+  @Input({required:true}) rowsData: Array<any>|undefined|null = undefined;
+  @Input({required:true}) metaData: MetaDataResponse<any> = {
     filters: {
     },
     sortBy: '',
@@ -37,12 +36,12 @@ export class TableComponent implements OnInit {
     totalPages: 0,
     totalItems: 0,
   };
-  @Input() culumnsTitle: any[] = [];
-  @Input() culemnsFilter: any[] = [];
-  @Input() selection:any = {};
-  @Input() checkbox: boolean = false;
+  @Input({required:true}) culumnsTitle: any[] = [];
+  @Input({required:true}) culemnsFilter: any[] = [];
+  @Input({required:true}) selection:any = {};
+  @Input({required:true}) checkbox: boolean = false;
 
-  @Input() actionButtons: any[]=[];
+  @Input({required:true}) actionButtons: any[]=[];
 
   @Output() selectedMembersChange = new EventEmitter<any[]>();
 
@@ -158,7 +157,5 @@ export class TableComponent implements OnInit {
     });
   }
 
-  clearMessages() {
-    this.alert.set("");
-  }
+
 }

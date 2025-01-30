@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {  FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { userAuthenticationApiService } from '../../core/services/api/userAuthentication/user-authentication-api.service';
@@ -14,6 +14,7 @@ import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { FocusTrapModule } from 'primeng/focustrap';
 import { AutoFocusModule } from 'primeng/autofocus';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-register',
   imports: [CommonModule, RouterLink, ReactiveFormsModule, Message, InputTextModule, PasswordModule, ButtonModule, FloatLabelModule, InputGroup, InputGroupAddonModule,FocusTrapModule,AutoFocusModule],
@@ -21,18 +22,13 @@ import { AutoFocusModule } from 'primeng/autofocus';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
- constructor(private router: Router, private userAuthApi: userAuthenticationApiService) { }
+ constructor(private router: Router, private userAuthApi: userAuthenticationApiService,private messageService:MessageService) { }
   errors: string[] = [""];
-  alert = signal("");
   hide = signal(true);
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
-  }
-
-  clearMessages() {
-    this.alert.set("");
   }
 
   registerForm = new FormGroup(
@@ -56,7 +52,6 @@ export class RegisterComponent {
 
   onSubmit() {
     this.errors = [""];
-    this.alert.set("");
     this.userAuthApi.register(this.registerForm.getRawValue())
       .subscribe(
         {
@@ -73,6 +68,14 @@ export class RegisterComponent {
             }
           },
           error: (error) => {
+            this.messageService.add({
+              key: 'toast',
+              sticky: true,
+              severity: 'error',
+              summary: 'some thing went wrong',
+              detail: 'please try again later.',
+            });
+    
             console.log("server error " + error);
           }
         }

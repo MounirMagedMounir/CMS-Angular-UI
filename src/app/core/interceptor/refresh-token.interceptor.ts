@@ -1,54 +1,59 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { userAuthenticationApiService } from '../services/api/userAuthentication/userauthenticationApi.service';
+import { userAuthenticationApiService } from '../services/api/userAuthentication/user-authentication-api.service';
 import { ApiResponse } from '../interface/api-response';
 import { AuthResponse } from '../interface/auth-response';
-import {  throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication/authentication.service';
-
+import { MessageService } from 'primeng/api';
 
 export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const userAuthApi = inject(userAuthenticationApiService);
   const auth = inject(AuthenticationService);
+  const messageService = inject(MessageService);
   const token = localStorage.getItem('token') ?? '';
   const refreshToken = localStorage.getItem('refreshToken') ?? '';
-  if (token && refreshToken && isTokenExpired(token)&&!req.url.includes('/UserAuthentication/RefreshToken')) {
-    // console.log('Token expired, attempting refresh...');
-    
+  if (
+    token &&
+    refreshToken &&
+    isTokenExpired(token) &&
+    !(req.url.includes('/UserAuthentication/RefreshToken')||req.url.includes('/UserAuthentication/SignOut'))
+  ) {
+    // console.log(isTokenExpired(token));
     return userAuthApi.refreshToken(JSON.stringify(refreshToken)).pipe(
-      switchMap(
-        (response:any) => {
-          // console.log('Token refresh response:', response);
-          const res = response as ApiResponse<Array<AuthResponse>>;
-          if (res.status === 200) {
-            const newToken = res.data[0].token;
-            const newRefreshToken = res.data[0].refreshToken;
-            // console.log('Token refreshed successfully', newToken);
+      switchMap((response: any) => {
+        const res = response as ApiResponse<Array<AuthResponse>>;
+        if (res.status === 200) {
+          const newToken = res.data[0].token;
+          const newRefreshToken = res.data[0].refreshToken;
 
-            localStorage.setItem('token', newToken);
-            localStorage.setItem('refreshToken', newRefreshToken);
+          localStorage.setItem('token', newToken);
+          localStorage.setItem('refreshToken', newRefreshToken);
 
-            const clonedReq = req.clone({
-              setHeaders: { Authorization: `Bearer ${newToken}` },
-            });
-            return next(clonedReq);
-          } else {
-            console.error('Token refresh failed:', res.status);
-            clearSessionAndRedirect(auth);
-            return throwError(() => new Error('Token refresh failed.'));
-          }   
-     
+          const clonedReq = req.clone({
+            setHeaders: { Authorization: `Bearer ${newToken}` },
+          });
+          return next(clonedReq);
+        } else {
+          return throwError(() => new Error(res.status.toString()));
+        }
       }),
       catchError((error) => {
-        console.error('Refresh token API error:', error.message);
+        messageService.add({
+          key: 'toast',
+          sticky: true,
+          severity: 'error',
+          summary: 'Token refresh failed ',
+          detail: 'you will be redirected to login page.',
+        });
+
         clearSessionAndRedirect(auth);
-        return throwError(() => new Error('Token refresh failed.'));
+        return throwError(() => new Error('Refresh token failed:', error.message));
       })
     );
   }
-// console.log('Token is not expired or no token found');
-  // If no refresh is needed, forward the request as is
+
   return next(req);
 };
 
@@ -59,7 +64,7 @@ function decodeToken(token: string): any {
     const jsonPayload = decodeURIComponent(
       atob(base64)
         .split('')
-        .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`) 
+        .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
         .join('')
     );
     return JSON.parse(jsonPayload);
@@ -75,12 +80,13 @@ function getTokenExpiry(token: string): number {
 
 function isTokenExpired(token: string): boolean {
   const expiry = getTokenExpiry(token);
-  // console.log('Token expiry:', expiry);
-  return !expiry || Date.now() >= expiry;
+  //  console.log(Date.now()+'Token expiry:', expiry);
+  return Date.now() >= expiry;
 }
 
-function clearSessionAndRedirect(auth:AuthenticationService): void {
-
+function clearSessionAndRedirect(auth: AuthenticationService): void {
   auth.signout();
-  window.location.href = '/login'; // Adjust the path as needed
+  setTimeout(() => {
+    window.location.href = '/login'; // Adjust the path as needed
+  }, 3000);
 }

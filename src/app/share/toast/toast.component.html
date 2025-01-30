@@ -1,0 +1,30 @@
+<p-toast 
+  [position]="position"
+  key="{{key}}" 
+  [baseZIndex]="baseZIndex"
+>
+    <ng-template let-message  #message>
+      <div class="toast-container">
+        <div class="toast-summary">{{ message.summary }}</div>
+       
+        @if(message.detail) {
+          <div class="toast-details">{{ message.detail }}</div>
+        }  
+
+        @if(message.data?.button) {
+          <div class="toast-button">
+        @for (item of message.data?.button; track $index) {
+      
+            <p-button
+              [severity]="item.severity"
+              size="small"
+              [label]="item.label"
+              (click)="item.action()"
+            ></p-button>
+        
+        }
+      </div>
+        }
+      </div>
+    </ng-template>
+  </p-toast>

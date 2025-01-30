@@ -14,5 +14,5 @@ import { PanelModule } from 'primeng/panel';
   standalone: true
 })
 export class DetailsComponent  {
-  @Input() data?: any;
+  @Input({required:true}) data?: any;
 }

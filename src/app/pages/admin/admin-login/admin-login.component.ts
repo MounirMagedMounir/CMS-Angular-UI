@@ -14,6 +14,7 @@ import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { AdminauthenticationApiService } from '../../../core/services/api/adminAuthentication/admin-authentication-api.service';
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-admin-login',
@@ -22,9 +23,9 @@ import { AuthenticationService } from '../../../core/services/authentication/aut
   styleUrl: './admin-login.component.scss'
 })
 export class AdminLoginComponent {
-  constructor(private router: Router, public formBuilder: FormBuilder, private adminAuthApi: AdminauthenticationApiService,private auth:AuthenticationService) { }
+  constructor(private router: Router, public formBuilder: FormBuilder, private adminAuthApi: AdminauthenticationApiService,private auth:AuthenticationService,private messageService:MessageService) { }
   errors: string[] = [""];
-  alert = signal("");
+
   hide = signal(true);
 
   clickEvent(event: MouseEvent) {
@@ -32,9 +33,6 @@ export class AdminLoginComponent {
     event.stopPropagation();
   }
 
-  clearMessages() {
-    this.alert.set("");
-  }
 
   logInForm = new FormGroup(
     {
@@ -47,7 +45,7 @@ export class AdminLoginComponent {
 
   onSubmit() {
     this.errors = [""];
-    this.alert.set("");
+
     this.adminAuthApi.logIn(this.logInForm.getRawValue())
       .subscribe(
         {
@@ -63,11 +61,23 @@ export class AdminLoginComponent {
                 //  console.log("eelementrror " + element);
                   this.errors.push(element) });
             } else if (res.status === 404) {
-
-              this.alert.set(res.message.toString());
+              this.messageService.add({
+                key: 'toast',
+                severity: 'error',
+                summary: 'please enter your correct credentials',
+                detail:res.message.toString(),
+              });
+      
+         
             }else if (res.status === 403) {
+              this.messageService.add({
+                key: 'toast',
+                severity: 'error',
+                summary: 'access denied',
+                detail:res.message.toString() ,
+              });
+      
 
-              this.alert.set(res.message.toString());
             }
           },
           error: (error) => {
