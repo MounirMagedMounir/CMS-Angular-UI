@@ -1,0 +1,81 @@
+.not-found-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--surface-ground) 100%);
+    padding: 2rem;
+  
+    .content-wrapper {
+      text-align: center;
+      max-width: 600px;
+      padding: 2rem;
+      background: var(--surface-card);
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+  
+      &:hover {
+        transform: translateY(-5px);
+      }
+  
+      .error-image {
+        max-width: 300px;
+        height: auto;
+        margin-bottom: 2rem;
+      }
+  
+      .error-title {
+        color: var(--primary-color);
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+      }
+  
+      .error-message {
+        color: var(--text-color);
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+  
+      // Custom button styling
+      ::ng-deep .p-button {
+        padding: 0.75rem 2rem;
+        font-size: 1.1rem;
+        border-color: var(--primary-color) !important;
+        color: var(--primary-color) !important;
+  
+        &:hover {
+          background: var(--primary-color) !important;
+          color: var(--primary-color-text) !important;
+        }
+  
+        .pi {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+  
+  // Responsive Design
+  @media (max-width: 768px) {
+    .not-found-container {
+      padding: 1rem;
+  
+      .content-wrapper {
+        .error-image {
+          max-width: 200px;
+        }
+  
+        .error-title {
+          font-size: 2rem;
+        }
+  
+        .error-message {
+          font-size: 1rem;
+        }
+      }
+    }
+  }

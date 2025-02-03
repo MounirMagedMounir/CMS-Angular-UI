@@ -7,6 +7,8 @@ import { ForgetpasswordComponent } from './pages/forgetpassword/forgetpassword.c
 import { HomeComponent } from './pages/home/home.component';
 import { unAuthGuard } from './core/guards/unAuth/un-auth.guard';
 import { userAuthGuard } from './core/guards/auth/userAuth/user-auth.guard';
+import { NotFound404Component } from './share/not-found-404/not-found-404.component';
+import { UnAuthorized401Component } from './share/un-authorized-401/un-authorized-401.component';
 
 export const routes: Routes = [
     {
@@ -50,7 +52,15 @@ export const routes: Routes = [
         path:'profile',
         canActivate: [userAuthGuard],
         loadChildren:()=>import( './pages/profile/profile.module').then(m=>m.ProfileModule)   
+    },{
+        path:'unauthorized',
+        component: UnAuthorized401Component
+    },
+    {
+        path:'**',
+        component: NotFound404Component
     }
+    
     
 
 ];
