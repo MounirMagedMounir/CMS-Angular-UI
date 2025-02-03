@@ -7,7 +7,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { tokenInterceptor } from './core/interceptor/token.interceptor';
-import { refreshTokenInterceptor } from './core/interceptor/refresh-token.interceptor';
+import { refreshTokenInterceptor } from '../../docs/refresh-token.interceptor';
 import { AuthenticationService } from './core/services/authentication/authentication.service';
 import { MessageService } from 'primeng/api';
 
@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideAppInitializer(() => {inject(AuthenticationService).initializeAuthentication();inject(MessageService)}),
     provideHttpClient(
-      withInterceptors([refreshTokenInterceptor, tokenInterceptor])
+      withInterceptors([tokenInterceptor,refreshTokenInterceptor])
     ),
     providePrimeNG({
       theme: {

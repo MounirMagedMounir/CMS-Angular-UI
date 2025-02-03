@@ -1,11 +1,11 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { userAuthenticationApiService } from '../services/api/userAuthentication/user-authentication-api.service';
-import { ApiResponse } from '../interface/api-response';
-import { AuthResponse } from '../interface/auth-response';
+import { userAuthenticationApiService } from '../src/app/core/services/api/userAuthentication/user-authentication-api.service';
+import { ApiResponse } from '../src/app/core/interface/api-response';
+import { AuthResponse } from '../src/app/core/interface/auth-response';
 import { throwError } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
-import { AuthenticationService } from '../services/authentication/authentication.service';
+import { AuthenticationService } from '../src/app/core/services/authentication/authentication.service';
 import { MessageService } from 'primeng/api';
 
 export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
@@ -20,7 +20,8 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
     isTokenExpired(token) &&
     !(req.url.includes('/UserAuthentication/RefreshToken')||req.url.includes('/UserAuthentication/SignOut'))
   ) {
-    // console.log(isTokenExpired(token));
+    console.log(isTokenExpired(token),token,refreshToken);
+
     return userAuthApi.refreshToken(JSON.stringify(refreshToken)).pipe(
       switchMap((response: any) => {
         const res = response as ApiResponse<Array<AuthResponse>>;
@@ -36,7 +37,7 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
           });
           return next(clonedReq);
         } else {
-          return throwError(() => new Error(res.status.toString()));
+          return throwError(() => new Error(res.message.toString()));
         }
       }),
       catchError((error) => {
@@ -47,9 +48,9 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
           summary: 'Token refresh failed ',
           detail: 'you will be redirected to login page.',
         });
-
+console.log('Refresh token failed:', error.message);
         clearSessionAndRedirect(auth);
-        return throwError(() => new Error('Refresh token failed:', error.message));
+        return throwError(() => new Error('Refresh token failed:'+ error.message));
       })
     );
   }
