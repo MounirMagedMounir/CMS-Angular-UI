@@ -1,11 +1,11 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { userAuthenticationApiService } from '../src/app/core/services/api/userAuthentication/user-authentication-api.service';
-import { ApiResponse } from '../src/app/core/interface/api-response';
-import { AuthResponse } from '../src/app/core/interface/auth-response';
+import { userAuthenticationApiService } from '../services/api/userAuthentication/user-authentication-api.service';
+import { ApiResponse } from '../interface/api-response';
+import { AuthResponse } from '../interface/auth-response';
 import { throwError } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
-import { AuthenticationService } from '../src/app/core/services/authentication/authentication.service';
+import { AuthenticationService } from '../services/authentication/authentication.service';
 import { MessageService } from 'primeng/api';
 
 export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
