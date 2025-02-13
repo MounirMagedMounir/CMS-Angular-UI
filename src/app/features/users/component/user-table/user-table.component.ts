@@ -135,7 +135,7 @@ export class UserTableComponent implements OnInit {
   getUsersList(filter: UserFilterResponse, sortOrder: string, sortBy: string, page: number, perPage: number) {
     sortBy = sortBy.toLocaleLowerCase().includes("role") ? "roleid" : sortBy;
     console.log(filter, sortOrder, sortBy, page, perPage);
-    this.userApi.getUsersList(filter, { sortOrder: sortOrder, sortBy: sortBy, skip: page, take: perPage }).subscribe(
+    this.userApi.getUsersList({ sortOrder: sortOrder, sortBy: sortBy, skip: page, take: perPage },filter ).subscribe(
       {
         next: (response: any) => {
           const res = response as ApiResponse<[Array<UserResponse>, MetaDataResponse<UserFilterResponse>]>;
