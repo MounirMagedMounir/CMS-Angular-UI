@@ -31,7 +31,6 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
 
           localStorage.setItem('token', newToken);
           localStorage.setItem('refreshToken', newRefreshToken);
-
           const clonedReq = req.clone({
             setHeaders: { Authorization: `Bearer ${newToken}` },
           });
@@ -48,9 +47,8 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
           summary: 'Token refresh failed ',
           detail: 'you will be redirected to login page.',
         });
-console.log('Refresh token failed:', error.message);
         clearSessionAndRedirect(auth);
-        return throwError(() => new Error('Refresh token failed:'+ error.message));
+        return throwError(() => new Error('Refresh token failed: '+ error.message));
       })
     );
   }

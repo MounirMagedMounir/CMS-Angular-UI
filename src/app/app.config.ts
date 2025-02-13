@@ -18,10 +18,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimations(), 
     provideAnimationsAsync(),
-    provideAppInitializer(() => {inject(AuthenticationService).initializeAuthentication();inject(MessageService)}),
     provideHttpClient(
       withInterceptors([tokenInterceptor,refreshTokenInterceptor])
-    ),
+    ),  
+    provideAppInitializer(() =>  inject(AuthenticationService).initializeAuthentication()),
+
     providePrimeNG({
       theme: {
         preset: Aura

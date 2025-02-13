@@ -12,7 +12,7 @@ import { MessageService } from 'primeng/api';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
   title = 'CMS-Angular-UI';
   constructor(private auth: AuthenticationService,private messageService: MessageService) { }
@@ -21,11 +21,5 @@ export class AppComponent implements OnInit {
   key: string= 'toast';
   baseZIndex: number = 3000;
 
-  ngOnInit(): void {
-    var token = localStorage.getItem("token");
-    var refreshToken = localStorage.getItem("refreshToken");
-    if (token && refreshToken) {
-      this.auth.initializeAuthentication();
-    }
-  }
+
 }

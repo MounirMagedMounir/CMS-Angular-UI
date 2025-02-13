@@ -15,44 +15,48 @@ export class AuthenticationService {
   isLoggedIn = signal<boolean>(false);
   isAdmin=  signal<boolean>(false);
 
-  initializeAuthentication(): Promise<void> {
-    return new Promise((resolve, reject) => {
+  initializeAuthentication(): Promise<void> { 
+    return new Promise((resolve) => {
       const token = localStorage.getItem('token');
       const refreshToken = localStorage.getItem('refreshToken');
-      
-      // If no token or refresh token is found, resolve with a "no authentication"
+  
+      // If no token or refresh token is found, clear state and continue.
       if (!token || !refreshToken) {
         this.signout();
-        resolve(); // No token found, so simply resolve and continue
+        resolve(); // Resolve and continue
       } else {
         this.userService.getcurrentUser().subscribe({
           next: (response: any) => {
             const res = response as ApiResponse<Array<UserResponse>>;
             if (res.status === 200) {
-              // User found, set the authentication state
+              // User found, update authentication state
               this.currentUser.set(res.data[0]);
               this.isLoggedIn.set(true);
+              console.log("authenticating serves");
+  
               if (res.data[0].role.toString().includes('Admin')) {
                 this.isAdmin.set(true);
               } else {
                 this.isAdmin.set(false);
               }
-              resolve(); // Authentication successful, resolve the promise
+              resolve(); // Resolve after successful authentication
             } else {
-              // If user data is not found, clear the state and reject
+              // User not found – clear state and resolve
               this.signout();
-              reject('User not found');
+              resolve();
             }
           },
           error: (error) => {
-            // If there's an error fetching the user, clear the state and reject
-            // this.signout();
-            reject('Error fetching user: ' + error.message);
+            // On error, log it, clear state, and resolve so the app can continue.
+            console.error('Error fetching user:', error.message);
+            this.signout();
+            resolve();
           }
         });
       }
     });
   }
+  
   
   login(token: string, refreshToken: string) {
     localStorage.setItem('token', token);
@@ -61,7 +65,6 @@ export class AuthenticationService {
       next: (response: any) => {
         const res = response as ApiResponse<Array<UserResponse>>;
         if (res.status === 200) {
-          console.log("res.data[0] " );
           this.currentUser.set(res.data[0]);
               this.isLoggedIn.set(true);
               if (res.data[0].role.toString().includes('Admin')) {
@@ -85,9 +88,10 @@ export class AuthenticationService {
   }
   
   signout() {
-    
+    console.log("signout");
     this.currentUser.set(null);
     this.isLoggedIn.set(false);
+    this.isAdmin.set(false);
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
 
