@@ -1,0 +1,78 @@
+.dialog{
+    width: 500px;
+}
+.edit-container{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 450px;
+    
+}
+.edit-card{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.edit-title{
+    font-size: 33px;
+    font-weight: 900;
+    margin-bottom: 10%;
+    padding-left: 30%;
+}
+.edit-form{
+    display: flex;
+    flex-direction: column;
+    
+}
+.form-field{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+.p-inputtext {
+    width: 100%;
+    margin-bottom: 4%;
+    height: 42px;
+}
+.isActive-Input{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.password-container{
+
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.isActive-Input {
+    background-color: #333;
+    border-radius: 35px;
+    width: 47%;
+    height: 50px;
+    font-size: large;
+    font-weight: bold;
+    label {
+      margin-left: 23%;
+      margin-top: 5%;
+    }
+  }
+  
+  .isActive-button {
+    background-color: none;
+    border-radius: 30px;
+    margin-left: 5px;
+  }
+  .Active-button {
+    background-color: aqua;
+    border-radius: 30px;
+  }
+  .unActive-button {
+    background-color: #ff0000;
+    border-radius: 30px;
+  }
+  .action-btn{
+    padding-left: 30%;
+  }

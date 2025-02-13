@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
+import { UserCreateComponent } from './user-create/user-create.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'edit/:id',
     component: UserEditComponent
+  },
+  {
+    path: 'add',
+    component: UserCreateComponent
   },
 ];
 
