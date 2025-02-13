@@ -1,1 +1,6 @@
-<app-user-details/>
+<p-button class="edit-btn" (click)="showDialog()" icon="pi pi-pencil" label="Edit" variant="outlined" severity="success" />
+<p-button class="image-edit-btn"  icon="pi pi-camera" [raised]="true"  [rounded]="true" severity="secondary"  [outlined]="true" />
+
+<app-user-details [userData]="userData" [isLoading]="isLoading"/>
+
+<app-user-edit-dialog [userData]="userData" [visible]="visible"(visibleChange)="onvisibleChange($event)"/>

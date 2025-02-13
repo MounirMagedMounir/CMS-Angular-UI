@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../core/services/authentication/authentication.service';
 import { DetailsComponent } from '../../share/details/details.component';
 
@@ -8,74 +8,54 @@ import { DetailsComponent } from '../../share/details/details.component';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent   {
 
 auth=inject(AuthenticationService);
-data: any;
+data = computed(() => {
+    const userData = this.auth.currentUser();
+    if (!userData) return undefined;
 
-ngOnInit(): void {
-  this.initializeLayout();}
-
-
-private initializeLayout() {
-  if (!this.auth.currentUser()) return;
-
-  this.data = {
-    profileImage: this.auth.currentUser()?.profileImage,
-    email: this.auth.currentUser()?.email,
-    userName: this.auth.currentUser()?.userName,
-    culomn: [
-      [
+    return {
+      profileImage: userData.profileImage,
+      email: userData.email,
+      userName: userData.userName,
+      column: [
         {
-          culomnName: 'Personal Details',
+          columnName: 'Personal Details',
           rows: [
-            { name: 'Full Name: ', value: this.auth.currentUser()?.name },
-            { name: 'Display Name: ', value: this.auth.currentUser()?.userName },
-            { name: 'Phone Number:', value: this.auth.currentUser()?.phone },
-            { name: 'Email:', value: this.auth.currentUser()?.email },
+            { name: 'Full Name: ', value: userData.name },
+            { name: 'Display Name: ', value: userData.userName },
+            { name: 'Phone Number:', value: userData.phone },
+            { name: 'Email:', value: userData.email },
           ],
         },
         {
-          culomnName: 'Account Details',
+          columnName: 'Account Details',
           rows: [
-            {
-              name: 'Account Created: ',
-              value: this.formatDate(this.auth.currentUser()?.createdDate??new Date()),
-            },
-            {
-              name: 'Account Created By: ',
-              value: this.auth.currentUser()?.createdByName,
-            },
-            {
-              name: 'Last Update:',
-              value: this.formatDate(this.auth.currentUser()?.lastUpdatedDate??new Date()),
-            },
-            {
-              name: 'Last Update By:',
-              value: this.auth.currentUser()?.lastUpdatedByName,
-            },
-          ],
-        },
-      ],
-      [
-        {
-          culomnName: 'Preferences',
-          rows: [
-            { name: 'Role: ', value: this.auth.currentUser()?.role },
-            { name: 'Account  Active: ', value: this.auth.currentUser()?.isActive },
+            { name: 'Role: ', value: userData.role },
+            { name: 'Account Active: ', value: userData.isActive },
+            { name: 'Account Created: ', value: this.formatDate(userData.createdDate) },
+            { name: 'Account Created By: ', value: userData.createdByName },
+            { name: 'Last Update:', value: this.formatDate(userData.lastUpdatedDate) },
+            { name: 'Last Update By:', value: userData.lastUpdatedByName },
           ],
         },
         {
-          culomnName: 'Settings',
+          columnName: 'Preferences',
+          rows: [],
+        },
+        {
+          columnName: 'Settings',
           rows: [
             { name: 'Dark Mode: ', value: 'Activated' },
             { name: 'Language for Content: ', value: 'English' },
           ],
         },
       ],
-    ],
-  };
-}
+    };
+  });
+
+
 private formatDate(date: Date): string {
   return new Date(date).toLocaleDateString();
 }

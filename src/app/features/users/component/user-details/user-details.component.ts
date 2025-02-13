@@ -1,28 +1,26 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { UserApiService } from '../../../../core/services/api/user/user-api.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ApiResponse } from '../../../../core/interface/api-response';
+import {
+  Component,
+  computed,
+  Input,
+  signal,
+} from '@angular/core';
 import { UserResponse } from '../../../../core/interface/user/user-response';
 import { LoadingComponent } from '../../../../share/loading/loading.component';
 import { DetailsComponent } from '../../../../share/details/details.component';
-import { MessageService } from 'primeng/api';
+
 @Component({
   selector: 'app-user-details',
-  imports: [ LoadingComponent, DetailsComponent],
+  imports: [LoadingComponent, DetailsComponent],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss',
 })
-export class UserDetailsComponent implements OnInit {
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private userApi: UserApiService,
-    private messageService: MessageService
-  ) {}
+
+export class UserDetailsComponent {
   
-  protected isLoading = signal(true);
-  protected userData = signal<UserResponse>({
-    id: 0,
+  // Use Angular's input signals instead of @Input with regular signals
+  @Input()  isLoading = signal(true);
+  @Input() userData = signal<UserResponse>({
+    id: '',
     name: '',
     userName: '',
     email: '',
@@ -39,110 +37,52 @@ export class UserDetailsComponent implements OnInit {
     lastUpdatedByName: '',
   });
   
-  data: any;
+  // Convert data to a computed signal that updates when userData changes
+  data = computed(() => {
+    const userData = this.userData();
+    if (!userData) return undefined;
 
-  ngOnInit() {
-    const userId = this.route.snapshot.paramMap.get('id');
-    this.userApi.getUserById({ UserId: userId }).subscribe({
-      next: (response: any) => {
-        const res = response as ApiResponse<Array<UserResponse>>;
-        if (res.status === 200) {
-          this.isLoading.set(false);
-          this.userData.set(res.data[0]);  
-          this.initializeLayout();
-          console.log(res.data[0]);
-        } else if (res.status === 400) {
-
-            this.messageService.add({
-              key: 'toast',
-              severity: 'error',
-              summary: 'user not found',
-              detail: res.message.toString(),
-            });
-          console.error(res);
-          setTimeout(() => {
-            this.router.navigate(['/admin/user/dashboard']);
-          }, 2000);
-        }
-      },
-      error: (error) => {
-        this.isLoading.set(false);
-        this.messageService.add({
-          key: 'toast',
-          severity: 'error',
-          summary: 'An error occurred while fetching user user.',
-          detail: error.message,
-        });
-
-        console.error(error);
-      },
-    });
-
-  }
-
-  private initializeLayout() {
-    if (!this.userData()) return;
-
-    this.data = {
-      profileImage: this.userData()?.profileImage,
-      email: this.userData()?.email,
-      userName: this.userData()?.userName,
-      culomn: [
-        [
-          {
-            culomnName: 'Personal Details',
-            rows: [
-              { name: 'Full Name: ', value: this.userData()?.name },
-              { name: 'Display Name: ', value: this.userData()?.userName },
-              { name: 'Phone Number:', value: this.userData()?.phone },
-              { name: 'Email:', value: this.userData()?.email },
-            ],
-          },
-          {
-            culomnName: 'Account Details',
-            rows: [
-              {
-                name: 'Account Created: ',
-                value: this.formatDate(this.userData().createdDate),
-              },
-              {
-                name: 'Account Created By: ',
-                value: this.userData()?.createdByName,
-              },
-              {
-                name: 'Last Update:',
-                value: this.formatDate(this.userData().lastUpdatedDate),
-              },
-              {
-                name: 'Last Update By:',
-                value: this.userData()?.lastUpdatedByName,
-              },
-            ],
-          },
-        ],
-        [
-          {
-            culomnName: 'Preferences',
-            rows: [
-              { name: 'Role: ', value: this.userData()?.role },
-              { name: 'Account  Active: ', value: this.userData()?.isActive },
-            ],
-          },
-          {
-            culomnName: 'Settings',
-            rows: [
-              { name: 'Dark Mode: ', value: 'Activated' },
-              { name: 'Language for Content: ', value: 'English' },
-            ],
-          },
-        ],
+    return {
+      profileImage: userData.profileImage,
+      email: userData.email,
+      userName: userData.userName,
+      column: [
+        {
+          columnName: 'Personal Details',
+          rows: [
+            { name: 'Full Name: ', value: userData.name },
+            { name: 'Display Name: ', value: userData.userName },
+            { name: 'Phone Number:', value: userData.phone },
+            { name: 'Email:', value: userData.email },
+          ],
+        },
+        {
+          columnName: 'Account Details',
+          rows: [
+            { name: 'Role: ', value: userData.role },
+            { name: 'Account Active: ', value: userData.isActive },
+            { name: 'Account Created: ', value: this.formatDate(userData.createdDate) },
+            { name: 'Account Created By: ', value: userData.createdByName },
+            { name: 'Last Update:', value: this.formatDate(userData.lastUpdatedDate) },
+            { name: 'Last Update By:', value: userData.lastUpdatedByName },
+          ],
+        },
+        {
+          columnName: 'Preferences',
+          rows: [],
+        },
+        {
+          columnName: 'Settings',
+          rows: [
+            { name: 'Dark Mode: ', value: 'Activated' },
+            { name: 'Language for Content: ', value: 'English' },
+          ],
+        },
       ],
     };
-  }
+  });
 
   private formatDate(date: Date): string {
     return new Date(date).toLocaleDateString();
   }
-
-
 }
