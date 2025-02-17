@@ -25,4 +25,10 @@ CreateUser(data :UserCreate){
 UpdateUser(data :UserUpdate){
   return this.api.Put('/User/Update',null,data);
 };
+DeletePermanentUser(UserId :any){
+  return this.api.Post('/User/DeletePermanent',UserId,null);
+};
+DeleteUser(UserId :any){
+  return this.api.Post('/User/Delete',UserId,null);
+};
 }

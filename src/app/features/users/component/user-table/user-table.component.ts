@@ -64,7 +64,7 @@ export class UserTableComponent implements OnInit {
   selection = { mode: "", metaKey: false };
   selectedUsers: any[] = [];
 
-  actionButtons = [{ icon: 'pi pi-pencil', url: "/admin/user/edit/", severity: null }, { icon: 'pi pi-trash', url: "", severity: "danger" }];
+  actionButtons = [{ icon: 'pi pi-pencil', url: "/admin/user/edit/", severity: null }, { icon: 'pi pi-trash', url: "/admin/user/delete/", severity: "danger" }];
 
   ngOnInit(): void {
     this.initializeQueryParams();

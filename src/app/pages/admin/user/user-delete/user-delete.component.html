@@ -1,0 +1,34 @@
+<div>
+<h2 class="delete-container">Are you sure you want to Delete <strong >{{user.name}}</strong>  with Email :  <strong>{{user.email}}</strong> ?</h2>
+
+@if (auth.isAdmin()) {
+<button  
+pButton
+label="Delete"
+class="delete-btn"
+icon="pi pi-trash"
+styleClass="p-button-warning"
+severity="danger"
+(click)="onDeletePermanentUser()"></button>
+}@else {
+<button  
+pButton
+label="Delete"
+class="delete-btn"
+icon="pi pi-trash"
+styleClass="p-button-warning"
+severity="danger"
+(click)="onDeleteUser()"></button>
+}
+
+<button  
+pButton
+label="Cansel"
+class="cansel-btn"
+icon="pi pi-times"
+styleClass="p-button-warning"
+severity="warn"
+routerLink="/admin/user"
+></button>
+
+</div>
