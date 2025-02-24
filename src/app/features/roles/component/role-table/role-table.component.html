@@ -1,0 +1,17 @@
+@if(selectedRoles.length>0){
+    <div class="delete-button">
+    <p-button (click)="onDelete()" severity="danger" label="Delete" />
+  </div>
+  }
+  
+<app-table
+[isLoading]="isLoading"
+[metaData]="metaData"
+[rowsData]="roleList"
+[culumnsTitle]="culumnsTitle"
+[culemnsFilter]="culemnsFilter"
+[checkbox]="checkbox"
+[selection]="selection"
+(selectedMembersChange)="onSelectedRolesChange($event)"
+[actionButtons]="actionButtons"
+></app-table>

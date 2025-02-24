@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
-import { UserListComponent } from './user/user-list/user-list.component';
 import { roleAdminPagesGuard } from '../../core/guards/role/roleAdminPages/role-admin-pages.guard';
 import { AdminComponent } from './admin.component';
-import { RoleComponent } from './role/role.component';
 import { adminAuthGuard } from '../../core/guards/auth/adminAuth/admin-auth.guard';
 import { unAuthAdminGuard } from '../../core/guards/unAuthAdmin/un-auth-admin.guard';
 
@@ -28,9 +26,9 @@ const routes: Routes = [{
 },
 
 {
-  path: 'role/dashboard',
+  path: 'role',
   canActivate: [roleAdminPagesGuard, adminAuthGuard],
-  component: RoleComponent
+  loadChildren: () => import('./role/role.module').then(m => m.RoleModule)
 }
 ];
 
