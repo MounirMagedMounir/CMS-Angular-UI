@@ -38,9 +38,9 @@ export class UserEditComponent implements OnInit {
     role: '',
     createdDate: new Date(),
     lastUpdatedDate: new Date(),
-    createdbyId: 0,
+    createdbyId: '',
     createdByName: '',
-    lastUpdatedbyId: 0,
+    lastUpdatedbyId: '',
     lastUpdatedByName: '',
   });
 

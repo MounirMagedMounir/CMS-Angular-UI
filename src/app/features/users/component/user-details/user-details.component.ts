@@ -31,9 +31,9 @@ export class UserDetailsComponent {
     role: '',
     createdDate: new Date(),
     lastUpdatedDate: new Date(),
-    createdbyId: 0,
+    createdbyId: '',
     createdByName: '',
-    lastUpdatedbyId: 0,
+    lastUpdatedbyId: '',
     lastUpdatedByName: '',
   });
   

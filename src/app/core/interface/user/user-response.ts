@@ -10,8 +10,8 @@ export interface UserResponse {
     role: string;
     createdDate: Date;
     lastUpdatedDate: Date;
-    createdbyId: number;
+    createdbyId: string;
     createdByName: string;
-    lastUpdatedbyId: number;
+    lastUpdatedbyId: string;
     lastUpdatedByName: string;
 }

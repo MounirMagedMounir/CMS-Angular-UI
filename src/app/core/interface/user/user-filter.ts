@@ -1,4 +1,4 @@
-export interface UserFilterResponse {
+export interface UserFilter {
     id: string | null;
 
     createdDateFrom: Date | null;
