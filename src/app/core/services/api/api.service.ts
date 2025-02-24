@@ -29,9 +29,9 @@ export class ApiService {
   }
 
   // DELETE Request
-  Delete(url: string, query?: any) {
+  Delete(url: string, query?: any, data?: any) {
     const apiUrl = this.constructUrl(url, query);
-    return this.http.delete(apiUrl, this.httpOptions);
+    return this.http.delete(apiUrl, { ...this.httpOptions, body: data });
   }
 
   // PUT Request
