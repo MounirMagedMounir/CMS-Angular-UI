@@ -1,0 +1,96 @@
+<div class="create-container">
+  <div class="create-card">
+    <h1 class="create-title">
+      <span>Create Role</span>
+    </h1>
+
+    <form
+      pFocusTrap
+      class="create-form"
+      [formGroup]="createForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <p class="create-subtitle">
+        Enter the role personal data to create role.
+      </p>
+
+      <div class="form-field">
+        <!-- Name Field -->
+        <div class="name-Input">
+          <p-floatlabel variant="on">
+            <input
+              pInputText
+              id="name"
+              type="text"
+              formControlName="name"
+              [pAutoFocus]="true"
+            />
+            <label for="name">Name</label>
+          </p-floatlabel>
+          <div class="error-message">
+            <p-message
+              *ngIf="getError('Name')"
+              severity="error"
+              variant="simple"
+              size="small"
+            >
+              {{ getError("Name") }}
+            </p-message>
+          </div>
+        </div>
+
+        <!-- Permissions Field -->
+        <div class="form-group">
+          <div class="permissions-label">
+            <label>Permissions</label> <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            (click)="addPermission()"
+          ></button>
+          </div>
+         
+          <div formArrayName="permissions">
+            <div
+              *ngFor="let permission of permissions.controls; let i = index"
+              [formGroupName]="i"
+            >
+              <p-floatlabel variant="on">
+                <input pInputText type="text" formControlName="name" />
+                <label for="permission">Permission</label>
+              </p-floatlabel>
+              <button
+                pButton
+                type="button"
+                icon="pi pi-times"
+                (click)="removePermission(i)"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-btns">
+        <!-- Create Button -->
+        <button
+          pButton
+          type="submit"
+          label="Create"
+          class="create-btn"
+          icon="pi pi-role-plus"
+          styleClass="p-button-warning"
+        ></button>
+
+        <!-- Cansel Button -->
+        <button
+          pButton
+          label="Cansel"
+          class="cansel-btn"
+          icon="pi pi-times"
+          styleClass="p-button-warning"
+          routerLink="/admin/role"
+        ></button>
+      </div>
+    </form>
+  </div>
+</div>
