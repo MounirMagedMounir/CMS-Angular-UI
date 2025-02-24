@@ -3,7 +3,7 @@ import { TableComponent } from '../../../../share/table/table.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiResponse } from '../../../../core/interface/api-response';
 import { MetaDataResponse } from '../../../../core/interface/meta-data-response';
-import { UserFilterResponse } from '../../../../core/interface/user/user-filter-response';
+import { UserFilter } from '../../../../core/interface/user/user-filter';
 import { UserResponse } from '../../../../core/interface/user/user-response';
 import { UserApiService } from '../../../../core/services/api/user/user-api.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -25,16 +25,16 @@ export class UserTableComponent implements OnInit {
   isLoading: boolean = true;
   userList: Array<UserResponse> | undefined | null = undefined;
 
-  culumnsTitle = [{ title: 'name', sort: true }, { title: 'userName', sort: true }, { title: 'email', sort: true }, { title: 'phone', sort: true }, { title: 'isActive', sort: true }, { title: 'role', sort: true }, { title: 'createdDate', sort: true }];
-  culemnsFilter = [{ title: 'name', type: "text", tip: "contain string , no special characters" },
-  { title: 'userName', type: "text", tip: "contain only letters, numbers, underscores and periods . Special characters such as @ or # or consecutive underscores or periods or end with an underscore or period are not allowed. " },
+  culumnsTitle = [ { title: 'userName', sort: true },{ title: 'name', sort: true }, { title: 'email', sort: true }, { title: 'phone', sort: true }, { title: 'isActive', sort: true }, { title: 'role', sort: true }, { title: 'createdDate', sort: true }];
+  culemnsFilter = [  { title: 'userName', type: "text", tip: "contain only letters, numbers, underscores and periods . Special characters such as @ or # or consecutive underscores or periods or end with an underscore or period are not allowed. " },
+{ title: 'name', type: "text", tip: "contain string , no special characters" },
   { title: 'email', type: "text", tip: "" },
   { title: 'phone', type: "text", tip: "must contain only numbers . " },
   { title: 'isActive', type: "boolean", tip: "contain true or false" },
   { title: 'roleName', type: "text", tip: "contain string , no special characters" },
   { title: 'createdDateFrom', type: "text", tip: "must be in form of yyyy-mm-dd e.g 2025-1-1" }];
 
-  metaData: MetaDataResponse<UserFilterResponse> = {
+  metaData: MetaDataResponse<UserFilter> = {
     filters: {
       id: null,
       createdDateFrom: null,
@@ -109,7 +109,7 @@ export class UserTableComponent implements OnInit {
     this.metaData.sortOrder = params['sortOrder'] || 'asc';
 
     Object.keys(this.metaData.filters).forEach((key) => {
-      const filterKey = key as keyof UserFilterResponse;
+      const filterKey = key as keyof UserFilter;
       let parsedValue;
       if (params[filterKey] === 'true' || params[filterKey] === 'false') {
         parsedValue = params[filterKey] === 'true'; // Convert to boolean
@@ -132,13 +132,13 @@ export class UserTableComponent implements OnInit {
 
   }
 
-  getUsersList(filter: UserFilterResponse, sortOrder: string, sortBy: string, page: number, perPage: number) {
+  getUsersList(filter: UserFilter, sortOrder: string, sortBy: string, page: number, perPage: number) {
     sortBy = sortBy.toLocaleLowerCase().includes("role") ? "roleid" : sortBy;
     console.log(filter, sortOrder, sortBy, page, perPage);
     this.userApi.getUsersList({ sortOrder: sortOrder, sortBy: sortBy, skip: page, take: perPage },filter ).subscribe(
       {
         next: (response: any) => {
-          const res = response as ApiResponse<[Array<UserResponse>, MetaDataResponse<UserFilterResponse>]>;
+          const res = response as ApiResponse<[Array<UserResponse>, MetaDataResponse<UserFilter>]>;
           if (res.status === 200) {
            
             this.isLoading = false;

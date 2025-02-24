@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
-import { UserFilterResponse } from '../../../interface/user/user-filter-response';
+import { UserFilter } from '../../../interface/user/user-filter';
 import { UserCreate } from '../../../interface/user/user-create';
 import { UserUpdate } from '../../../interface/user/user-update';
 
@@ -13,7 +13,7 @@ export class UserApiService {
 getcurrentUser(){
   return this.api.Get('/User/GetCurrent');
 };
-getUsersList(queryParam:any,data:UserFilterResponse){
+getUsersList(queryParam:any,data:UserFilter){
   return this.api.Post('/User/GetList',queryParam,data);
 };
 getUserById(queryParam:any){

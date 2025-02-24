@@ -72,7 +72,7 @@ export class UserCreateComponent {
     );
     this.userApi.CreateUser(this.createForm.getRawValue()).subscribe({
       next: (response: any) => {
-        const res = response as ApiResponse<Array<AuthResponse>>;
+        const res = response as ApiResponse<null>;
         if (res.status === 200) {
           this.messageService.add({
             key: 'toast',
