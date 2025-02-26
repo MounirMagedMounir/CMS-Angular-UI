@@ -1,0 +1,24 @@
+<div>
+    <h2 class="delete-container">Are you sure you want to Delete Role : <strong >{{role.name}}</strong> ?</h2>
+    
+    <button  
+    pButton
+    label="Delete"
+    class="delete-btn"
+    icon="pi pi-trash"
+    styleClass="p-button-warning"
+    severity="danger"
+    (click)="onDeletePermanentRole()"></button>
+  
+    
+    <button  
+    pButton
+    label="Cansel"
+    class="cansel-btn"
+    icon="pi pi-times"
+    styleClass="p-button-warning"
+    severity="warn"
+    routerLink="/admin/role"
+    ></button>
+    
+    </div>

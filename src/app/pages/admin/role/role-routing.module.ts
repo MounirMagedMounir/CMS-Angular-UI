@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RoleListComponent } from './role-list/role-list.component';
 import { RoleCreateComponent } from './role-create/role-create.component';
+import { RoleEditComponent } from './role-edit/role-edit.component';
+import { RoleDeleteComponent } from './role-delete/role-delete.component';
 
 const routes: Routes = [
 
@@ -17,17 +19,17 @@ const routes: Routes = [
     {
       path: 'edit', pathMatch: 'full', redirectTo: 'dashboard'
     },
-    // {
-    //   path: 'edit/:id',
-    //   component: UserEditComponent
-    // },
-    // {
-    //   path: 'delete', pathMatch: 'full', redirectTo: 'dashboard'
-    // },
-    // {
-    //   path: 'delete/:id',
-    //   component: UserDeleteComponent
-    // },
+    {
+      path: 'edit/:id',
+      component: RoleEditComponent
+    },
+    {
+      path: 'delete', pathMatch: 'full', redirectTo: 'dashboard'
+    },
+    {
+      path: 'delete/:id',
+      component: RoleDeleteComponent
+    },
 ];
 
 @NgModule({
