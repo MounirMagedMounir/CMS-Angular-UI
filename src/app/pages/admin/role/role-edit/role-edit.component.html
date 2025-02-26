@@ -1,0 +1,5 @@
+<p-button class="edit-btn" (click)="showDialog()" icon="pi pi-pencil" label="Edit" variant="outlined" severity="success" />
+
+<app-role-details [roleData]="roleData" [isLoading]="isLoading"/>
+
+<app-role-edit-dialog [roleData]="roleData" [visible]="visible" (visibleChange)="onvisibleChange($event)"/>

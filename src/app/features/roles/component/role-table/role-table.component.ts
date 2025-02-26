@@ -64,7 +64,7 @@ export class RoleTableComponent {
   selection = { mode: "multiple", metaKey: false };
   selectedRoles: any[] = [];
 
-  actionButtons = [{ icon: 'pi pi-pencil', url: "", severity: null }, { icon: 'pi pi-trash', url: "", severity: "danger" }];
+  actionButtons = [{ icon: 'pi pi-pencil', url: "/admin/role/edit/", severity: null }, { icon: 'pi pi-trash', url: "/admin/role/delete/", severity: "danger" }];
 
 
   onSelectedRolesChange(selectedRoles: any): void {

@@ -1,0 +1,107 @@
+<p-dialog
+  maskStyleClass="backdrop-blur-sm"
+  class="dialog"
+  [draggable]="false"
+  [resizable]="false"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  [(visible)]="visible"
+>
+  <ng-template #headless>
+    <div class="edit-container">
+      <div class="edit-card">
+        <h1 class="edit-title">
+          <span>Edit Role</span>
+        </h1>
+
+        <form
+          pFocusTrap
+          class="edit-form"
+          [formGroup]="editForm()"
+          (ngSubmit)="onSubmit()"
+        >
+          <div class="form-field">
+            <!-- Name Field -->
+            <div class="name-Input">
+              <p-floatlabel variant="on">
+                <input
+                  pInputText
+                  id="name"
+                  type="text"
+                  formControlName="name"
+                  [pAutoFocus]="true"
+                />
+                <label for="name">Name</label>
+              </p-floatlabel>
+              <div class="error-message">
+                <p-message
+                  *ngIf="getError('name')"
+                  severity="error"
+                  variant="simple"
+                  size="small"
+                >
+                  {{ getError("name") }}
+                </p-message>
+              </div>
+            </div>
+
+            <!-- Permissions Field -->
+            <div class="form-group">
+              <div class="permissions-label">
+                <label>Permissions</label>
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-plus"
+                  (click)="addPermission()"
+                ></button>
+              </div>
+
+              <div formArrayName="permissions">
+                <p-scrollpanel [style]="{ width: '100%', height: 'auto' ,maxHeight: '500px',minHeight: '00px'}">
+                  <div
+                    *ngFor="
+                      let permission of permissions.controls;
+                      let i = index
+                    "
+                    [formGroupName]="i"
+                  >
+                    <p-floatlabel variant="on" [style]="{ 'margin-top': '6px' }">
+                      <input pInputText type="text" formControlName="name" />
+                      <label for="permission">Permission</label>
+                    </p-floatlabel>
+                    <button
+                      pButton
+                      type="button"
+                      icon="pi pi-times"
+                      (click)="removePermission(i)"
+                    ></button>
+                  </div>
+                </p-scrollpanel>
+              </div>
+            </div>
+          </div>
+
+          <!-- button  -->
+          <div class="action-btn">
+            <p-button
+              label="save"
+              type="submit"
+              [text]="true"
+              styleClass="!p-4 w-full !text-primary-50 !border !border-white/30 hover:!bg-white/10"
+              class="w-full"
+            />
+
+            <p-button
+              label="Cancel"
+              (click)="closeDialog()"
+              [text]="true"
+              styleClass="!p-4 w-full !text-primary-50 !border !border-white/30 hover:!bg-white/10"
+              class="w-full"
+              severity="danger"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>

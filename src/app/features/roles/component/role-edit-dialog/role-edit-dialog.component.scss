@@ -1,0 +1,53 @@
+.dialog{
+    width: 500px;
+}
+.edit-container{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 450px;
+    
+}
+.edit-card{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.edit-title{
+    font-size: 33px;
+    font-weight: 900;
+    margin-bottom: 10%;
+    padding-left: 30%;
+}
+.edit-form{
+    display: flex;
+    flex-direction: column;
+    
+}
+.form-field{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+.p-inputtext {
+    width: 100%;
+    margin-bottom: 4%;
+    height: 42px;
+}
+
+  .action-btn{
+    padding-left: 30%;
+  }.p-button{
+    margin-bottom: 13px;
+  }
+  .permissions-label{
+    margin-bottom: 10px;
+    .p-button{
+      margin-left: 7%;
+    } 
+  }
+  .action-btns{
+    display: flex;
+    justify-content: space-between;
+  }
