@@ -1,7 +1,7 @@
 <div class="profile-container">
   <!-- Profile Header -->
 
-  <div *ngIf="data().email" class="profile-header">
+  <div *ngIf="data().userName" class="profile-header">
     <p-avatar
       shape="circle"
       size="large"
@@ -19,7 +19,7 @@
     <div class="columns-container">
       @for (column of data().column; track $index) {
       <div class="profile-column">
-        <p-panel header="{{ column.columnName }}" class="profile-panel">
+        <p-panel header="{{ column.columnName }}" class="profile-panel" [style]="{ minHeight: '100%' }">
           @for (rowdata of column.rows; track $index) {
           <p>
             <strong>{{ rowdata.name }}</strong>

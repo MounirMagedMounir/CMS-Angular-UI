@@ -1,6 +1,7 @@
 .profile-container {
   max-width: 1200px;
-  height: 600px;
+  min-height: 600px;
+  height: auto ;
   margin: 0 auto;
   padding: 20px;
   background-color: #07dd8b0e;
@@ -46,6 +47,7 @@
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
+   
   }
   .profile-sections {
     margin-top: 20px;
@@ -53,7 +55,7 @@
     .profile-column {
       flex: 1;
       max-width: 300px;
-
+      min-width: 188px;
       .profile-panel {
         background-color: #161b22;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
@@ -63,6 +65,7 @@
           margin: 10px 0;
           font-size: 0.95rem;
           font-weight: 100;
+          
           strong {
             color: #c9d1d9;
             font-weight: 500;
@@ -81,15 +84,4 @@
       }
     }
   }
-}
-
-.p-panel{
-  height: 108%;
-  width: 275px;
-}
-
-.p-panel-header{
-  width: 272px;
-  margin-top: -1px;
-  margin-left: 0px;
 }
