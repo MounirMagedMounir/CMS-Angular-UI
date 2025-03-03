@@ -57,9 +57,14 @@ export class NavbarComponent implements OnInit {
                     route: '/admin/user/dashboard'
                 },
                 {
-                    label: 'role',
+                    label: 'Role',
                     icon: 'pi pi-key',
                     route: '/admin/role/dashboard'
+                },
+                {
+                    label: 'Permission',
+                    icon: 'pi pi-key',
+                    route: '/admin/permission/dashboard'
                 }
             ]
         }
