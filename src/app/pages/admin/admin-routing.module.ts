@@ -29,6 +29,12 @@ const routes: Routes = [{
   path: 'role',
   canActivate: [roleAdminPagesGuard, adminAuthGuard],
   loadChildren: () => import('./role/role.module').then(m => m.RoleModule)
+},
+
+{
+  path: 'permission',
+  canActivate: [roleAdminPagesGuard, adminAuthGuard],
+  loadChildren: () => import('./permission/permission.module').then(m => m.PermissionModule)
 }
 ];
 
