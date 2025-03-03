@@ -1,0 +1,69 @@
+<div class="create-container">
+    <div class="create-card">
+      <h1 class="create-title">
+        <span>Create permission</span>
+      </h1>
+  
+      <form
+        pFocusTrap
+        class="create-form"
+        [formGroup]="createForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <p class="create-subtitle">
+          Enter the permission data to create permission.
+        </p>
+  
+        <div class="form-field">
+          <!-- Name Field -->
+          <div class="name-Input">
+            <p-floatlabel variant="on">
+              <input
+                pInputText
+                id="name"
+                type="text"
+                formControlName="name"
+                [pAutoFocus]="true"
+              />
+              <label for="name">Name</label>
+            </p-floatlabel>
+            <div class="error-message">
+              <p-message
+                *ngIf="getError('Name')"
+                severity="error"
+                variant="simple"
+                size="small"
+              >
+                {{ getError("Name") }}
+              </p-message>
+            </div>
+          </div>
+  
+       
+        </div>
+  
+        <div class="action-btns">
+          <!-- Create Button -->
+          <button
+            pButton
+            type="submit"
+            label="Create"
+            class="create-btn"
+            icon="pi pi-permission-plus"
+            styleClass="p-button-warning"
+          ></button>
+  
+          <!-- Cansel Button -->
+          <button
+            pButton
+            label="Cansel"
+            class="cansel-btn"
+            icon="pi pi-times"
+            styleClass="p-button-warning"
+            routerLink="/admin/permission"
+          ></button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

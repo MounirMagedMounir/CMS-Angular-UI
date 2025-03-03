@@ -1,0 +1,132 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 89vh;
+    background-color: #000; // Black background
+  }
+  
+  .create-container {
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    width: 100%;
+    max-width: 600px;
+    .create-card {
+      background-color: #1a1a1a; // Dark gray background
+      color: #fff; // White text
+      padding: 2.5rem; // Increased padding for a spacious feel
+      border-radius: 10px; // Increased width
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+      &:hover {
+        transform: scale(1.05); // Hover zoom effect
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+      }
+  
+      .create-title {
+        text-align: center;
+        font-size: 2rem; // Increased font size
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+  
+        span {
+          color: #34d399; // Pink accent
+        }
+      }
+      .error-message {
+        justify-content: center;
+        align-items: center;
+        margin-top: -16px;
+        margin-bottom: 10px;
+      }
+      .create-subtitle {
+        text-align: center;
+        font-size: 1rem; // Slightly larger subtitle
+        color: #888; // Light gray text
+        margin-bottom: 2rem;
+      }
+  
+      .create-form {
+        .form-field {
+          margin-bottom: 2.5rem;
+  
+          p-floatlabel {
+            display: block;
+            margin-bottom: 1.5rem;
+  
+            input,
+            p-password input {
+              width: 100%;
+              padding: 0.7rem; // Larger padding for inputs
+              border-radius: 5px;
+              margin-bottom: 6px;
+              background-color: #27272a;
+              color: #fff; // White text
+              transition: box-shadow 0.3s;
+  
+              &:focus {
+                box-shadow: 0 0 0 2px #34d399; // Pink outline on focus
+              }
+            }
+  
+            label {
+              // margin-top: -1%;
+              background-color: #333; // Gray background when floating
+            }
+          }
+        }
+
+        
+ 
+  
+        .create-btn {
+          padding: 0.7rem; // Increased button padding
+          background-color: #34d399; // green button
+          color: #fff;
+          border-radius: 5px;
+          border: none;
+          font-size: 1.2rem; // Larger button font size
+          cursor: pointer;
+          margin-bottom: 0.5rem;
+          transition: background-color 0.3s;
+          width: 49%;
+  margin-right: 2%;
+          &:hover {
+            background-color: #1c9b66; // Darker green
+          }
+        }
+  
+        .cansel-btn {
+          padding: 0.7rem; // Increased button padding
+          background-color: #ff0000; // red button
+          color: #fff;
+          border-radius: 5px;
+          border: none;
+          font-size: 1.2rem; // Larger button font size
+          cursor: pointer;
+          margin-bottom: 0.5rem;
+          transition: background-color 0.3s;
+          width: 49%;
+  
+          &:hover {
+            background-color: #661b1b; // Darker pink
+          }
+        }
+      }
+    }
+  }
+  .p-button{
+    margin-bottom: 5px;
+  }
+  .permissions-label{
+    margin-bottom: 10px;
+    .p-button{
+      margin-left: 7%;
+    }
+  }
+  .action-btns{
+    display: flex;
+    justify-content: space-between;
+  }
