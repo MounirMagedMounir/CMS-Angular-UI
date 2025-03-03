@@ -39,6 +39,7 @@ export class RoleCreateComponent {
     private roleApi: RoleApiService,
     private messageService: MessageService
   ) {}
+
   errors: string[] = [''];
   active = signal(true);
 
@@ -50,12 +51,6 @@ export class RoleCreateComponent {
       })
     ])
   });
-  
-
-  clickEvent(event: MouseEvent) {
-    this.active.set(!this.active());
-    event.stopPropagation();
-  }
 
   get permissions(): FormArray {
     return this.createForm.get('permissions') as FormArray;
@@ -73,7 +68,6 @@ export class RoleCreateComponent {
   removePermission(index: number) {
     this.permissions.removeAt(index);
   }
-
 
   onSubmit() {
     this.errors = [''];
