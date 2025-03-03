@@ -36,39 +36,39 @@ export class RoleDetailsComponent {
       column: [
         {
           columnName: 'user Permissions ',
-          rows: roleData.permissions.filter((p)=>p.name.includes('User')).map((permission) => {
+          rows: roleData.permissions.filter((p)=>p.name?.includes('User')).map((permission) => {
             return { name: '•', value: permission.name };
           }),
         },
         {
           columnName: 'Role Permissions',
-          rows: roleData.permissions.filter((p)=>p.name.includes('Role')).map((permission) => {
+          rows: roleData.permissions.filter((p)=>p.name?.includes('Role')).map((permission) => {
             return { name: '•', value: permission.name };
           }),
         },
         {
           columnName: 'Permissions',
-          rows: roleData.permissions.filter((p)=>p.name.includes('Permission')).map((permission) => {
+          rows: roleData.permissions.filter((p)=>p.name?.includes('Permission')).map((permission) => {
             return { name: '•', value: permission.name };
           }),
         },
         {
           columnName: 'Article Permissions',
-          rows: roleData.permissions.filter((p)=>p.name.includes('Article')).map((permission) => {
+          rows: roleData.permissions.filter((p)=>p.name?.includes('Article')).map((permission) => {
             return { name: '•', value: permission.name };
           }),
         }
         ,
         {
           columnName: 'Tag Permissions',
-          rows: roleData.permissions.filter((p)=>p.name.includes('Tag')).map((permission) => {
+          rows: roleData.permissions.filter((p)=>p.name?.includes('Tag')).map((permission) => {
             return { name: '•', value: permission.name };
           }),
         }
         ,
         {
           columnName: 'Comment Permissions',
-          rows:roleData.permissions.filter((p)=>p.name.includes('Comment')).map((permission) => {
+          rows:roleData.permissions.filter((p)=>p.name?.includes('Comment')).map((permission) => {
             return { name: '•', value: permission.name };
           }),
         }

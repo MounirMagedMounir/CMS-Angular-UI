@@ -1,7 +1,6 @@
+import { PermissionCreate } from "../../permissions/interface/permission-create";
+
 export interface RoleCreate {
     name: string|null;
-    permissions: Permission[]|null;
+    permissions: PermissionCreate[];
 }
-interface Permission {
-    name: string|null;
-  }

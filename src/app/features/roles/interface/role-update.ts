@@ -1,9 +1,7 @@
+import { RolePermission } from "./role-permission";
+
 export interface RoleUpdate {
     id: string|null;
     name: string|null;
-    permissions: Permission[];
+    permissions: RolePermission[];
 }
-interface Permission {
-    id: string|null;
-    name: string|null;
-  }

@@ -53,7 +53,6 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
   styleUrl: './role-edit-dialog.component.scss',
 })
 export class RoleEditDialogComponent {
-
   constructor(
     private router: Router,
     private roleApi: RoleApiService,
@@ -94,16 +93,13 @@ export class RoleEditDialogComponent {
   });
 
   onSubmit() {
+    console.log('edit ', this.editForm().getRawValue());
     const filteredPermissions = this.editForm()
       .getRawValue()
       .permissions.filter(
-        (p) =>
-          p.id !== '' &&
-          p.id !== null &&
-          p.id !== '' &&
-          p.name !== '' &&
-          p.name !== null
+        (p) =>( p.id !== '' && p.id !== null) || (p.name !== '' && p.name !== null)
       );
+    console.log('filter ', filteredPermissions);
     this.editForm().setControl(
       'permissions',
       new FormArray(
@@ -116,6 +112,7 @@ export class RoleEditDialogComponent {
         )
       )
     );
+    console.log('editafter ', this.editForm().getRawValue());
     this.errors = [''];
     this.roleApi.UpdateRole(this.editForm().getRawValue()).subscribe({
       next: (response: any) => {
@@ -182,5 +179,4 @@ export class RoleEditDialogComponent {
   getError(input: string): string | null {
     return this.errors.find((error) => error.includes(input)) || null;
   }
-  
 }

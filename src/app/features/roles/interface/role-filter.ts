@@ -12,6 +12,6 @@ export interface RoleFilter {
         lastUpdatedbyId: string | null;
         lastUpdatedbyName: string | null;
         name: string | null;
-        permissions: Array<PermissionFilter>|null;
+        permissions: Array<PermissionFilter>;
       
 }

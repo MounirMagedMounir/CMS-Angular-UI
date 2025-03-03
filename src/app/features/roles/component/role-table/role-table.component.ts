@@ -49,7 +49,7 @@ export class RoleTableComponent {
       createdbyName: null,
       lastUpdatedbyId: null,
       lastUpdatedbyName: null,
-      permissions: null
+      permissions: []
     }
     ,
     sortBy: 'name',
