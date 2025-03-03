@@ -1,0 +1,48 @@
+.delete-container {
+    position: absolute;
+    margin-top: 10%;
+    margin-left: 33%;
+    strong {
+      font-size: 1.5rem;
+      color: #00ff55;
+    }
+  
+  }
+  .cansel-btn{
+    padding: 0.7rem;
+    color: #fff;
+    border-radius: 17px;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.3s;
+    width: 12%;
+    height: 49px;
+    margin-left: 56%;
+    position: absolute;
+    margin-top: 27%;
+    &:hover {
+      background-color: #0fb300; // Darker pink
+    }
+  }
+  .delete-btn {
+    padding: 0.7rem;
+    background-color: #ff0000;
+    color: #fff;
+    border-radius: 17px;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.3s;
+    width: 12%;
+    height: 49px;
+    margin-left: 32%;
+    position: absolute;
+    margin-top: 27%;
+  
+    &:hover {
+      background-color: #661b1b; // Darker pink
+    }
+  }
