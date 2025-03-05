@@ -10,6 +10,7 @@ import { TableComponent } from '../../../../share/table/table.component';
 import { RoleFilter } from '../../interface/role-filter';
 import { ApiResponse } from '../../../../core/interface/api-response';
 import { RoleResponse } from '../../interface/role-response';
+import { RequestQueryParams } from '../../../../core/interface/request-query-params';
 
 @Component({
   selector: 'app-role-table',
@@ -77,10 +78,10 @@ export class RoleTableComponent {
       this.updateMetadataFromQueryParams(params);
       this.getRolesList(
         this.metaData.filters,
-        this.metaData.sortOrder,
-        this.metaData.sortBy,
-        this.metaData.page,
-        this.metaData.perPage
+        {sortOrder:this.metaData.sortOrder,
+        sortBy:this.metaData.sortBy,
+        skip:this.metaData.page,
+        take:this.metaData.perPage}
       );
 
     });
@@ -132,10 +133,10 @@ export class RoleTableComponent {
 
   }
 
-  getRolesList(filter: RoleFilter, sortOrder: string, sortBy: string, page: number, perPage: number) {
-    sortBy = sortBy.toLocaleLowerCase().includes("role") ? "roleid" : sortBy;
-    console.log(filter, sortOrder, sortBy, page, perPage);
-    this.roleApi.getRolesList({ sortOrder: sortOrder, sortBy: sortBy, skip: page, take: perPage }, filter).subscribe(
+  getRolesList(filter: RoleFilter,queryParams: RequestQueryParams) {
+    queryParams.sortBy = queryParams.sortBy.toLocaleLowerCase().includes("role") ? "roleid" : queryParams.sortBy;
+    console.log(filter, queryParams);
+    this.roleApi.getRolesList(queryParams, filter).subscribe(
       {
         next: (response: any) => {
           const res = response as ApiResponse<[Array<RoleResponse>, MetaDataResponse<RoleFilter>]>;
@@ -230,10 +231,10 @@ export class RoleTableComponent {
             this.isLoading = false;
             this.getRolesList(
               this.metaData.filters,
-              this.metaData.sortOrder,
-              this.metaData.sortBy,
-              this.metaData.page,
-              this.metaData.perPage
+             { sortOrder:this.metaData.sortOrder,
+             sortBy: this.metaData.sortBy,
+             skip: this.metaData.page,
+             take: this.metaData.perPage}
             );
             this.selectedRoles = [];
           } else if (res.status === 404) {

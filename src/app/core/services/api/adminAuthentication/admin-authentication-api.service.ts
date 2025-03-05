@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
+import { LoginRequest } from '../../../interface/auth/login-request';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import { ApiService } from '../api.service';
 export class AdminauthenticationApiService {
 
   constructor(private api:ApiService) { }
-  logIn(data:any){
+  logIn(data:LoginRequest){
     return this.api
      .Post('/AdminAuthentication/login', null, data);
    }

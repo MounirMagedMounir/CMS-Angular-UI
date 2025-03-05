@@ -2,7 +2,7 @@ export interface MetaDataResponse<T> {
     
     filters: T;
     sortBy: string;
-    sortOrder: string;
+    sortOrder: 'asc' | 'desc';
     page: number;
     perPage: number;
     totalPages: number;

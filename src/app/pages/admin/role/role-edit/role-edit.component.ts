@@ -39,7 +39,10 @@ export class RoleEditComponent {
 
   ngOnInit() {
     const roleId = this.route.snapshot.paramMap.get('id');
-    this.roleApi.getRoleById({ RoleId: roleId }).subscribe({
+    if(!roleId){
+
+    }else
+    this.roleApi.getRoleById(roleId).subscribe({
       next: (response: any) => {
         const res = response as ApiResponse<Array<RoleResponse>>;
         if (res.status === 200) {

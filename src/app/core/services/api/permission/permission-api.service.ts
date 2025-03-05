@@ -15,11 +15,11 @@ constructor(private api:ApiService) { }
 getPermissionsList(queryParam:any,data:PermissionFilter){
   return this.api.Get('/Permission/GetList',queryParam);
 };
-getPermissionById(queryParam:any){
-  return this.api.Get('/Permission/GetById',queryParam);
+getPermissionById(PermissionId:string){
+  return this.api.Get('/Permission/GetById',{permissionId:PermissionId});
 };
-getPermissionByName(queryParam:any){
-  return this.api.Get('/Permission/GetByName',queryParam);
+getPermissionByName(PermissionName:string){
+  return this.api.Get('/Permission/GetByName',{permissionName: PermissionName});
 };
 CreatePermission(data :PermissionCreate){
   return this.api.Post('/Permission/Create',null,data);
@@ -27,10 +27,10 @@ CreatePermission(data :PermissionCreate){
 UpdatePermission(data :PermissionUpdate){
   return this.api.Put('/Permission/Update',null,data);
 };
-DeletePermissionById(PermissionId :any){
-  return this.api.Delete('/Permission/DeleteById',PermissionId);
+DeletePermissionById(PermissionId :string){
+  return this.api.Delete('/Permission/DeleteById',{permissionId:PermissionId});
 };
-DeletePermissionListById(PermissionId :any[]){
-  return this.api.Delete('/Permission/DeleteListById',null,PermissionId);
+DeletePermissionListById(PermissionIds :string[]){
+  return this.api.Delete('/Permission/DeleteListById',null,PermissionIds);
 };
 }

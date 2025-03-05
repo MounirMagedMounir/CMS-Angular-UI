@@ -10,6 +10,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
+import { RequestQueryParams } from '../../../../core/interface/request-query-params';
 
 @Component({
   selector: 'app-user-table',
@@ -72,10 +73,11 @@ export class UserTableComponent implements OnInit {
       this.updateMetadataFromQueryParams(params);
       this.getUsersList(
         this.metaData.filters,
-        this.metaData.sortOrder,
-        this.metaData.sortBy,
-        this.metaData.page,
-        this.metaData.perPage
+       { sortOrder: this.metaData.sortOrder,
+       sortBy: this.metaData.sortBy,
+       skip: this.metaData.page,
+       take: this.metaData.perPage
+      }
       );
 
     });
@@ -132,10 +134,10 @@ export class UserTableComponent implements OnInit {
 
   }
 
-  getUsersList(filter: UserFilter, sortOrder: string, sortBy: string, page: number, perPage: number) {
-    sortBy = sortBy.toLocaleLowerCase().includes("role") ? "roleid" : sortBy;
-    console.log(filter, sortOrder, sortBy, page, perPage);
-    this.userApi.getUsersList({ sortOrder: sortOrder, sortBy: sortBy, skip: page, take: perPage },filter ).subscribe(
+  getUsersList(filter: UserFilter, queryParams: RequestQueryParams) {
+    queryParams.sortBy = queryParams.sortBy.toLocaleLowerCase().includes("role") ? "roleid" : queryParams.sortBy;
+    console.log(filter, queryParams);
+    this.userApi.getUsersList(queryParams,filter ).subscribe(
       {
         next: (response: any) => {
           const res = response as ApiResponse<[Array<UserResponse>, MetaDataResponse<UserFilter>]>;

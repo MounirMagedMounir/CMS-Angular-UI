@@ -80,8 +80,11 @@ export class PermissionEditComponent {
 
   ngOnInit() {
     const permissionId = this.route.snapshot.paramMap.get('id');
+    if(!permissionId){
+
+    }else
     this.permissionApi
-      .getPermissionById({ PermissionId: permissionId })
+      .getPermissionById(permissionId)
       .subscribe({
         next: (response: any) => {
           const res = response as ApiResponse<Array<PermissionResponse>>;
@@ -134,7 +137,7 @@ export class PermissionEditComponent {
         console.log('getRoles', this.filters);
     this.roleApi
       .getRolesList(
-        { sortOrder: 'ase', sortBy: 'name', skip: 1, take: 100 },
+        { sortOrder: 'asc', sortBy: 'name', skip: 1, take: 100 },
         this.filters
       )
       .subscribe({

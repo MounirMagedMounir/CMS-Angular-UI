@@ -52,7 +52,16 @@ export class RegisterComponent {
 
   onSubmit() {
     this.errors = [""];
-    this.userAuthApi.register(this.registerForm.getRawValue())
+    const formValues = this.registerForm.getRawValue();
+    const registerRequest = {
+      name: formValues.name || '',
+      email: formValues.email || '',
+      phone: formValues.phone || '',
+      userName: formValues.userName || '',
+      password: formValues.password || '',
+      confirmPassword: formValues.confirmPassword || ''
+    };
+    this.userAuthApi.register(registerRequest)
       .subscribe(
         {
           next: (response: any) => {

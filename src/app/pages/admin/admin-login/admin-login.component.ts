@@ -46,14 +46,17 @@ export class AdminLoginComponent {
   onSubmit() {
     this.errors = [""];
 
-    this.adminAuthApi.logIn(this.logInForm.getRawValue())
+    this.adminAuthApi.logIn({
+      email: this.logInForm.getRawValue().email || '',
+      password: this.logInForm.getRawValue().password || ''
+    })
       .subscribe(
         {
           next: (response: any) => {
             const res = response as ApiResponse<Array<AuthResponse>>;
             if (res.status === 200) {
               this.auth.login(res.data[0].token, res.data[0].refreshToken);
-              this.router.navigate(['/admin']);
+              setTimeout(() => {  this.router.navigate(['/admin']);},300)
             }
             else if (res.status === 400) {
                

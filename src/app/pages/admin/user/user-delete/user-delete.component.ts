@@ -30,7 +30,10 @@ export class UserDeleteComponent {
   
   ngOnInit() {
     const userId = this.route.snapshot.paramMap.get('id');
-    this.userApi.getUserById({ UserId: userId }).subscribe({
+    if(!userId){
+
+    }else{
+    this.userApi.getUserById(userId).subscribe({
       next: (response: any) => {
         const res = response as ApiResponse<Array<UserResponse>>;
         if (res.status === 200) {
@@ -59,12 +62,15 @@ export class UserDeleteComponent {
 
         console.error(error);
       },
-    });
+    });}
   }
 
   onDeletePermanentUser() {
     const userId = this.route.snapshot.paramMap.get('id');
-    this.userApi.DeletePermanentUser({ UserId: userId }).subscribe({
+    if(!userId){
+
+    }else
+    this.userApi.DeletePermanentUser(userId).subscribe({
       next: (response: any) => {
         const res = response as ApiResponse<Array<UserResponse>>;
         if (res.status === 200) {
@@ -100,8 +106,12 @@ export class UserDeleteComponent {
   }
 
   onDeleteUser() {
+    
     const userId = this.route.snapshot.paramMap.get('id');
-    this.userApi.DeleteUser({ UserId: userId }).subscribe({
+    if(!userId){
+
+    }else
+    this.userApi.DeleteUser(userId).subscribe({
       next: (response: any) => {
         const res = response as ApiResponse<Array<UserResponse>>;
         if (res.status === 200) {

@@ -46,7 +46,10 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit() {
     const userId = this.route.snapshot.paramMap.get('id');
-    this.userApi.getUserById({ UserId: userId }).subscribe({
+    if(!userId){
+
+    }else
+    this.userApi.getUserById(userId).subscribe({
       next: (response: any) => {
         const res = response as ApiResponse<Array<UserResponse>>;
         if (res.status === 200) {

@@ -30,7 +30,7 @@ export class TableComponent implements OnInit {
     filters: {
     },
     sortBy: '',
-    sortOrder: '',
+    sortOrder: 'asc',
     page: 0,
     perPage: 0,
     totalPages: 0,

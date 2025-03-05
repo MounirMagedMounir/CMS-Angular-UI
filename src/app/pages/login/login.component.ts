@@ -47,7 +47,10 @@ export class LoginComponent {
   onSubmit() {
     this.errors = [""];
  
-    this.userAuthApi.logIn(this.logInForm.getRawValue())
+    this.userAuthApi.logIn({
+      email: this.logInForm.getRawValue().email || '',
+      password: this.logInForm.getRawValue().password || ''
+    })
       .subscribe(
         {
           next: (response: any) => {

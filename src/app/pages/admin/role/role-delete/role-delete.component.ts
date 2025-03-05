@@ -26,7 +26,10 @@ export class RoleDeleteComponent {
   
   ngOnInit() {
     const roleId = this.route.snapshot.paramMap.get('id');
-    this.roleApi.getRoleById({ RoleId: roleId }).subscribe({
+    if(!roleId){
+
+    }else
+    this.roleApi.getRoleById(roleId).subscribe({
       next: (response: any) => {
         const res = response as ApiResponse<Array<RoleResponse>>;
         if (res.status === 200) {
@@ -59,7 +62,10 @@ export class RoleDeleteComponent {
 
   onDeletePermanentRole() {
     const roleId = this.route.snapshot.paramMap.get('id');
-    this.roleApi.DeleteRoleById({ RoleId: roleId }).subscribe({
+    if(!roleId){
+
+    }else
+    this.roleApi.DeleteRoleById(roleId).subscribe({
       next: (response: any) => {
         const res = response as ApiResponse<Array<RoleResponse>>;
         if (res.status === 200) {

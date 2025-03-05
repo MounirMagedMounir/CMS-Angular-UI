@@ -26,7 +26,10 @@ export class PermissionDeleteComponent {
   
   ngOnInit() {
     const permissionId = this.route.snapshot.paramMap.get('id');
-    this.permissionApi.getPermissionById({ PermissionId: permissionId }).subscribe({
+    if(!permissionId){
+
+    }else
+    this.permissionApi.getPermissionById(permissionId).subscribe({
       next: (response: any) => {
         const res = response as ApiResponse<Array<PermissionResponse>>;
         if (res.status === 200) {
@@ -59,7 +62,10 @@ export class PermissionDeleteComponent {
 
   onDeletePermanentPermission() {
     const permissionId = this.route.snapshot.paramMap.get('id');
-    this.permissionApi.DeletePermissionById({ PermissionId: permissionId }).subscribe({
+    if(!permissionId){
+
+    }else
+    this.permissionApi.DeletePermissionById(permissionId).subscribe({
       next: (response: any) => {
         const res = response as ApiResponse<Array<PermissionResponse>>;
         if (res.status === 200) {

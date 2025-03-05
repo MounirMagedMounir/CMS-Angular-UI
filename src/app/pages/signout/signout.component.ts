@@ -22,7 +22,7 @@ export class SignoutComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.userAuthApi.signOut(null).subscribe({
+    this.userAuthApi.signOut().subscribe({
       next: (response: any) => {
         const res = response as ApiResponse<null>;
         if (res.status === 200) {

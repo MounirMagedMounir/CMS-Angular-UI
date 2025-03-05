@@ -25,7 +25,7 @@ export class AuthenticationService {
         this.signout();
         resolve(); // Resolve and continue
       } else {
-        this.userService.getcurrentUser().subscribe({
+        this.userService.getCurrentUser().subscribe({
           next: (response: any) => {
             const res = response as ApiResponse<Array<UserResponse>>;
             if (res.status === 200) {
@@ -61,7 +61,7 @@ export class AuthenticationService {
   login(token: string, refreshToken: string) {
     localStorage.setItem('token', token);
     localStorage.setItem('refreshToken', refreshToken);
-    this.userService.getcurrentUser().subscribe({
+    this.userService.getCurrentUser().subscribe({
       next: (response: any) => {
         const res = response as ApiResponse<Array<UserResponse>>;
         if (res.status === 200) {

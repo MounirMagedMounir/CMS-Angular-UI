@@ -43,7 +43,11 @@ export class VerificationEmailComponent implements OnInit{
 
   onSubmit() {
     this.errors = [""];
-    this.auth.emailVerification(this.emailVerificationForm.getRawValue())
+    const emailVerificationData = {
+      email: this.emailVerificationForm.getRawValue().email || '',
+      verificationCode: this.emailVerificationForm.getRawValue().verificationCode || ''
+    };
+    this.auth.emailVerification(emailVerificationData)
       .subscribe(
         {
           next: (response: any) => {
