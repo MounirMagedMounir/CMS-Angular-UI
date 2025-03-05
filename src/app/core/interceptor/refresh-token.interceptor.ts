@@ -12,8 +12,26 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const userAuthApi = inject(userAuthenticationApiService);
   const auth = inject(AuthenticationService);
   const messageService = inject(MessageService);
-  const token = localStorage.getItem('token') ?? '';
-  const refreshToken = localStorage.getItem('refreshToken') ?? '';
+
+ // Skip processing for auth-related requests
+ if (req.url.includes('/UserAuthentication/')||req.url.includes('/AdminAuthentication/')) {
+  return next(req);
+}
+
+const token = localStorage.getItem('token');
+const refreshToken = localStorage.getItem('refreshToken');
+
+// If no tokens available, clear session
+if (!token || !refreshToken) {
+  auth.signout();
+  return throwError(() => new Error('No authentication tokens available'));
+}
+
+// Check token expiration
+if (!isTokenExpired(token)) {
+  return next(req);
+}
+
   if (
     token &&
     refreshToken &&
