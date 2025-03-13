@@ -1,0 +1,9 @@
+<div 
+class="animated-container"
+[ngClass]="{ 'visible': isVisible, 'hidden': !isVisible }"
+#animatedElement
+> 
+
+<ng-content></ng-content>
+
+</div>
